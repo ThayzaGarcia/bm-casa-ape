@@ -1,0 +1,310 @@
+<title>Atendimento Clinmed · 18–25/09</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f4f7f6; --surface:#ffffff; --ink:#18282a; --ink2:#44585a; --muted:#6c7f80; --line:#d9e3e1;
+  --accent:#0e6b62; --accent-soft:#dcefeb;
+  --crit:#b42318; --crit-soft:#fbe7e5; --warn:#9a5b06; --warn-soft:#fbf0dc; --good:#2f7d4f; --good-soft:#e2f2e7;
+  --bar:#0e6b62; --bar-dim:#9cc9c1;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f1716; --surface:#16211f; --ink:#e4eeec; --ink2:#b3c4c1; --muted:#8a9e9b; --line:#2a3a37;
+    --accent:#5cc2b3; --accent-soft:#17332f;
+    --crit:#f2877c; --crit-soft:#3a1c19; --warn:#e7b056; --warn-soft:#352a14; --good:#7cc99a; --good-soft:#18301f;
+    --bar:#5cc2b3; --bar-dim:#2f5f58;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f1716; --surface:#16211f; --ink:#e4eeec; --ink2:#b3c4c1; --muted:#8a9e9b; --line:#2a3a37;
+  --accent:#5cc2b3; --accent-soft:#17332f;
+  --crit:#f2877c; --crit-soft:#3a1c19; --warn:#e7b056; --warn-soft:#352a14; --good:#7cc99a; --good-soft:#18301f;
+  --bar:#5cc2b3; --bar-dim:#2f5f58;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15.5px;line-height:1.55;padding-inline:16px;padding-block:32px 64px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:clamp(28px,4.5vw,40px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:23px;font-weight:650}
+h3{font-size:16.5px;font-weight:650}
+p{margin:0;max-width:68ch}
+.mono,.num{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+section{display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--line);padding-bottom:28px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--ink2);font-size:13.5px}
+.lead{font-size:17px;color:var(--ink2)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.tile .v{font-family:"IBM Plex Mono",monospace;font-size:28px;font-weight:500;font-variant-numeric:tabular-nums}
+.tile .l{font-size:13px;color:var(--ink2);line-height:1.35}
+.verdict{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.finding{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start}
+.finding .body{display:flex;flex-direction:column;gap:6px}
+.finding .ev{font-size:13.5px;color:var(--ink2)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:650;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.crit{color:var(--crit);background:var(--crit-soft)}
+.warn{color:var(--warn);background:var(--warn-soft)}
+.good{color:var(--good);background:var(--good-soft)}
+.info{color:var(--accent);background:var(--accent-soft)}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.num{text-align:right;white-space:nowrap}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;position:relative}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:10px}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;padding:5px 8px;border-radius:6px;white-space:nowrap}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.card ul,.card ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.script{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.step{display:grid;grid-template-columns:28px 1fr;gap:10px}
+.step .n{font-family:"IBM Plex Mono",monospace;color:var(--accent);font-weight:500;padding-top:1px}
+.step blockquote{margin:6px 0 0;padding:10px 12px;background:var(--accent-soft);border-radius:8px;font-size:14px;white-space:pre-line}
+.small{font-size:13px;color:var(--muted)}
+.pill-row{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:13px;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:3px 10px}
+.pill b{font-family:"IBM Plex Mono",monospace;font-weight:500;color:var(--accent)}
+@media (max-width:520px){ .finding{grid-template-columns:1fr} }
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Auditoria de atendimento · WhatsApp comercial</span>
+  <h1>Atendimento Clinmed no WhatsApp, 18 a 25 de setembro</h1>
+  <p class="lead">Análise de todas as conversas da instância <span class="mono">+55 98 8202-0241</span> nos últimos 7 dias: velocidade de resposta, uso do script, oportunidades perdidas e riscos.</p>
+  <div class="meta">
+    <span>Período: <span class="mono">18/09 11:45 → 25/09 11:42</span> (horário de Brasília)</span>
+    <span>Fonte: API Uazapi, extração em 25/09</span>
+    <span>Pacientes identificados só pelos 4 últimos dígitos do telefone</span>
+  </div>
+</header>
+
+<section>
+  <span class="eyebrow">Resumo</span>
+  <h2>O essencial em cinco pontos</h2>
+  <div class="tiles">
+    <div class="tile"><span class="v">160</span><span class="l">conversas com pacientes ou interessados (de 177 no total)</span></div>
+    <div class="tile"><span class="v">55</span><span class="l">vieram de anúncios no Instagram/Facebook (34%)</span></div>
+    <div class="tile"><span class="v">4,9 min</span><span class="l">mediana da 1ª resposta humana em horário comercial</span></div>
+    <div class="tile"><span class="v">12</span><span class="l">conversas esperaram mais de 24 h pela 1ª resposta</span></div>
+    <div class="tile"><span class="v">~17</span><span class="l">agendamentos ou coletas combinados pelo WhatsApp</span></div>
+    <div class="tile"><span class="v">4 de 7</span><span class="l">pacientes cancelaram na confirmação de véspera (22/09)</span></div>
+  </div>
+  <ol class="list" style="padding-left:0">
+    <li class="finding"><span class="chip crit">Crítico</span><div class="body"><h3>Dados de saúde e dados pessoais circulam no número comercial sem controle</h3><p class="ev">CPF, data de nascimento, endereço e e-mail de uma paciente foram colados na conversa da gestão por engano. Laudos com nome de pacientes, pagamentos de médicos e contrato de trabalho passam pelo mesmo número. Isso é um risco de LGPD.</p></div></li>
+    <li class="finding"><span class="chip crit">Crítico</span><div class="body"><h3>A recepção está dando orientação clínica</h3><p class="ev">A mesma gestante com sangramento recebeu "transvaginal não" num dia e "pode está fazendo sim" no outro, um minuto depois de "vou verificar com o médico". Uma paciente também ouviu "Dr falou que sim" sobre receita de diazepam e escitalopram antes de marcar a consulta.</p></div></li>
+    <li class="finding"><span class="chip warn">Alto</span><div class="body"><h3>Em horário comercial a resposta é rápida. Fora dele, o lead esfria</h3><p class="ev">Quem escreve de noite ou no fim de semana só recebe resposta na segunda às 08:50. Mesmo assim, a mensagem automática promete "Responderemos em instantes".</p></div></li>
+    <li class="finding"><span class="chip warn">Alto</span><div class="body"><h3>Existe um script, mas só em partes, e ele não tem etapa de fechamento</h3><p class="ev">A abertura e as mensagens de preço estão padronizadas. A confirmação escrita do agendamento (data, hora, endereço e preparo) apareceu só 7 vezes, todas no mesmo dia. A maioria dos agendamentos terminou em "está marcando".</p></div></li>
+    <li class="finding"><span class="chip warn">Alto</span><div class="body"><h3>A clínica perde pacientes por falta de agenda e por follow-up genérico</h3><p class="ev">Ginecologia só atende às terças de manhã, e isso fez pelo menos 5 interessadas desistirem. Os cancelamentos de véspera não receberam proposta de nova data. Houve 42 mensagens de "gostaria de está marcando", sem horário concreto oferecido.</p></div></li>
+  </ol>
+</section>
+
+<section>
+  <span class="eyebrow">Volume</span>
+  <h2>Quando os pacientes escrevem</h2>
+  <p>Foram 892 mensagens de pacientes na semana, e 92% delas chegaram entre 07:30 e 17:00 em dias úteis. O pico é às 11h. Segunda-feira concentra o maior volume, com as mensagens acumuladas do fim de semana.</p>
+  <div class="chart" id="chart">
+    <h3>Mensagens de pacientes por hora do dia</h3>
+    <svg id="hours" viewBox="0 0 640 220" role="img" aria-label="Barras de mensagens por hora: pico de 183 às 11h"></svg>
+    <span class="small">Barras claras marcam as horas fora do expediente (antes das 07:30 e a partir das 17:00). Passe o mouse para ver os valores.</span>
+    <div class="tip" id="tip" hidden></div>
+  </div>
+  <div class="pill-row">
+    <span class="pill">Seg <b>249</b></span><span class="pill">Ter <b>208</b></span><span class="pill">Qua <b>173</b></span><span class="pill">Qui <b>129</b></span><span class="pill">Sex (até 11:42) <b>115</b></span><span class="pill">Sáb <b>13</b></span><span class="pill">Dom <b>5</b></span>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Velocidade</span>
+  <h2>Tempo de resposta</h2>
+  <p>O cálculo mede o tempo entre a primeira mensagem do paciente e a primeira resposta escrita por uma pessoa. A saudação automática não conta.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Medida</th><th class="num">Mediana</th><th class="num">Até 5 min</th><th class="num">Mais de 1 h</th><th class="num">Mais de 24 h</th></tr></thead>
+    <tbody>
+      <tr><td>1ª resposta, todas as conversas (135)</td><td class="num">10,8 min</td><td class="num">39%</td><td class="num">35%</td><td class="num">12</td></tr>
+      <tr><td>1ª resposta, mensagem enviada em horário comercial (106)</td><td class="num">4,9 min</td><td class="num">50%</td><td class="num">19%</td><td class="num">2</td></tr>
+      <tr><td>Todas as esperas ao longo das conversas (487)</td><td class="num">3,1 min</td><td class="num">57%</td><td class="num">19%</td><td class="num">27</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Esperas longas em horário comercial quase sempre foram orçamentos (de 5 a 34 horas) ou perguntas que dependiam do médico ou do laboratório.</p>
+</section>
+
+<section>
+  <span class="eyebrow">Script de atendimento</span>
+  <h2>Existe script? Está sendo seguido?</h2>
+  <div class="verdict">
+    <h3>Veredito: parcialmente</h3>
+    <p>Não há um roteiro completo, mas existem peças padronizadas que a atendente usa com frequência. A abertura e a apresentação de preços são seguidas. O fechamento, o preparo e a recuperação de faltas não têm padrão. Em 22/09 a gestão enviou um rascunho de nova saudação ("💚 Olá! Seja bem-vindo(a) à Clinmed!…"), mas ele não apareceu em nenhuma conversa com paciente. Ou seja, o novo script ainda não foi implantado.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Etapa</th><th>O que existe hoje</th><th class="num">Uso</th><th>Situação</th></tr></thead>
+    <tbody>
+      <tr><td>1. Saudação automática</td><td>"Ola, Seja Bem-vindo(a) a Clínica CLINMED… informe seu nome… Responderemos em instantes!"</td><td class="num">48 conversas</td><td><span class="chip warn">Com falhas</span><br><span class="small">Promete resposta imediata fora do horário. Também dispara para fornecedores e robôs (Claro, Banco do Brasil).</span></td></tr>
+      <tr><td>2. Apresentação da atendente</td><td>"Olá! ….Bom dia. Sou Keila e darei continuidade… Poderia me informar seu nome?"</td><td class="num">61 conversas</td><td><span class="chip warn">Com falhas</span><br><span class="small">Em 20 conversas o nome foi pedido duas vezes. Muitas vezes a mensagem saiu depois de o paciente já ter feito a pergunta, e até depois da resposta (final 9832). Ex.: final 2572 recebeu "Boa tarde" num texto de "Bom dia".</span></td></tr>
+      <tr><td>3. Uso do nome</td><td>O nome é pedido, mas quase nunca é usado depois</td><td class="num">1 conversa</td><td><span class="chip crit">Não seguido</span></td></tr>
+      <tr><td>4. Descoberta</td><td>"Qual ultrassom?", "qual trimestre?", "manda a foto do pedido"</td><td class="num">frequente</td><td><span class="chip good">Seguido</span></td></tr>
+      <tr><td>5. Preço padronizado</td><td>Textos prontos para o combo da mulher (15), a morfológica (8), o combo do homem (1) e o orçamento do sistema (12)</td><td class="num">36 envios</td><td><span class="chip warn">Com falhas</span><br><span class="small">Há preços divergentes entre orçamentos e o orçamento vem colado com rodapé e dezenas de linhas vazias.</span></td></tr>
+      <tr><td>6. Oferta de horário</td><td>"Temos vaga hoje à tarde / amanhã de manhã"</td><td class="num">frequente</td><td><span class="chip good">Seguido</span><br><span class="small">É o ponto mais forte do atendimento.</span></td></tr>
+      <tr><td>7. Confirmação escrita</td><td>"Tudo confirmado! [nome] Agendado para o dia … às … Ficamos localizado…"</td><td class="num">7 de ~17</td><td><span class="chip crit">Pouco usado</span><br><span class="small">Só apareceu em 21/09. Uma confirmação saiu com o nome errado (Cleudiana virou "Claudia Correia").</span></td></tr>
+      <tr><td>8. Preparo</td><td>Jejum, documentos e horário de coleta, informados só quando o paciente pergunta</td><td class="num">sob demanda</td><td><span class="chip crit">Não padronizado</span><br><span class="small">Houve orientação contraditória sobre jejum para o combo laboratorial.</span></td></tr>
+      <tr><td>9. Confirmação de véspera</td><td>"Boa tarde! gostaria de confirmar sua consulta de amanhã"</td><td class="num">7 pacientes</td><td><span class="chip warn">Com falhas</span><br><span class="small">Quatro cancelaram e ninguém recebeu proposta de nova data. Um pedido de remarcação (final 2842) ficou sem resposta.</span></td></tr>
+      <tr><td>10. Follow-up</td><td>"Gostaria de está marcando?"</td><td class="num">42 mensagens</td><td><span class="chip warn">Genérico</span><br><span class="small">Boa iniciativa, mas sem horário concreto nem motivo para decidir agora.</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <span class="eyebrow">Achados</span>
+  <h2>Achados significativos</h2>
+  <ul class="list">
+    <li class="finding"><span class="chip crit">Crítico</span><div class="body"><h3>Paciente colada na conversa errada</h3><p class="ev">Em 25/09, entre 09:03 e 09:22, a mensagem de uma familiar cobrando recibos, com CPF, nascimento, endereço, e-mail e a lista de exames e valores da mãe, foi enviada na conversa da gestão. Nessa mesma conversa circulam contrato de trabalho e acertos financeiros.</p></div></li>
+    <li class="finding"><span class="chip crit">Crítico</span><div class="body"><h3>Laudos e dados clínicos trafegam em massa pelo número comercial</h3><p class="ev">Foram mais de 100 arquivos de laudo com nome completo do paciente (ultrassom de mamas, obstétrica, próstata etc.) trocados com médico e digitador pelo mesmo WhatsApp que atende o público. Correções de laudo também foram feitas por foto. O e-mail pessoal de um médico foi repassado a um fornecedor.</p></div></li>
+    <li class="finding"><span class="chip crit">Crítico</span><div class="body"><h3>Respostas clínicas sem validação e informações corrigidas depois</h3><p class="ev">Gestante com sangramento: "transvaginal não" (21/09), depois "pode está fazendo sim" (22/09). Receita de remédio controlado: "Dr falou que sim". Ecocardiograma congênito: "Já fazemos" e, em seguida, "Opa mandei errado, nós não fazemos". Gastroenterologista: "não temos" para três pessoas e "temos Gatrologista" para outra.</p></div></li>
+    <li class="finding"><span class="chip warn">Alto</span><div class="body"><h3>Promessas que ficaram sem retorno</h3><p class="ev">"Vou já encaminhar os valores" (final 4784) não foi cumprido. Pergunta sobre risco cirúrgico para criança de 4 anos (final 0258) ficou sem resposta. Pedidos de exame toxicológico (final 3800) e de atendimento (final 1953) só receberam a mensagem automática. Um orçamento levou 34 h (final 1879). Uma pergunta sobre consulta com preventivo levou 3 dias (final 0611).</p></div></li>
+    <li class="finding"><span class="chip warn">Alto</span><div class="body"><h3>Alta taxa de cancelamento na véspera</h3><p class="ev">Das 7 confirmações enviadas em 21/09 para o dia 22/09, houve 4 cancelamentos, 2 confirmações e 1 sem resposta. A resposta padrão foi "tudo bem, melhorar". Nenhum desses pacientes recebeu uma data nova, e ninguém da lista de espera foi chamado.</p></div></li>
+    <li class="finding"><span class="chip warn">Alto</span><div class="body"><h3>Anúncios geram conversa, mas a conversão é baixa</h3><p class="ev">Dos 55 leads vindos de anúncio, 10 só enviaram a mensagem pronta "🟢 Online" e não disseram nada depois. Muitos receberam apresentação e imagem e a conversa parou aí. Contei cerca de 4 agendamentos entre esses leads.</p></div></li>
+    <li class="finding"><span class="chip warn">Médio</span><div class="body"><h3>Preços e endereço em versões diferentes</h3><p class="ev">Hemograma saiu por R$ 17 e R$ 20; lipidograma por R$ 40 e R$ 42; HBsAg por R$ 38 e R$ 40; T3 por R$ 32 e R$ 38. Exame de fezes foi cotado em R$ 24 e o orçamento saiu R$ 32. A morfológica de 1º trimestre com doppler foi cotada em R$ 250, que é o valor da de 2º trimestre. O endereço aparece como "Av. do Mercado Central… em frente ao Eletro Mateus" e também como "Travessa do Mercado Central… em frente ao Mercado Central".</p></div></li>
+    <li class="finding"><span class="chip warn">Médio</span><div class="body"><h3>Regras de agenda contraditórias</h3><p class="ev">A mesma pessoa ouviu que era "por ordem de chegada" e depois recebeu pedido de horário. O fim do atendimento do ultrassom aparece como 16:00 e como 16:30. O laboratório aparece como aberto até 15:00 e "até 16:00".</p></div></li>
+    <li class="finding"><span class="chip warn">Médio</span><div class="body"><h3>Tom e escrita</h3><p class="ev">Há erros de digitação frequentes ("gostaria de está marcando", "está marcando" no lugar de "está marcado"). Houve uma resposta em caixa alta ("NÃO FAZEMOS ESSE EXAME"), "Não fazemos 😒" e negativas secas sem oferecer alternativa. Foram 11 áudios enviados a pacientes, que não dá para ler de relance.</p></div></li>
+    <li class="finding"><span class="chip good">Positivo</span><div class="body"><h3>O que funciona e deve ser mantido</h3><p class="ev">Resposta rápida em horário comercial. Oferta ativa de horário ("temos vaga hoje à tarde"). Combos bem aceitos: o combo da mulher foi fechado em 2x no cartão sem objeção. Textos educativos muito bons sobre morfológica de 1º trimestre e bioimpedância. Houve iniciativa de follow-up e confirmação de véspera.</p></div></li>
+  </ul>
+</section>
+
+<section>
+  <span class="eyebrow">Demanda não atendida</span>
+  <h2>O que os pacientes pediram e a clínica não oferece</h2>
+  <p>Esta lista serve de insumo para decidir agenda e parcerias. Cada item é uma conversa perdida nesta semana.</p>
+  <div class="pill-row">
+    <span class="pill">Ginecologia fora de terça <b>5</b></span>
+    <span class="pill">Gastroenterologia <b>3</b></span>
+    <span class="pill">Atendimento aos sábados <b>3</b></span>
+    <span class="pill">Dermatologia <b>2</b></span>
+    <span class="pill">Otorrino (incl. pediátrico) <b>2</b></span>
+    <span class="pill">Cardiologia / exames cardíacos <b>4</b></span>
+    <span class="pill">Endocrinologia <b>1</b></span>
+    <span class="pill">Reumatologia <b>1</b></span>
+    <span class="pill">Neurologia <b>1</b></span>
+    <span class="pill">Densitometria <b>1</b></span>
+    <span class="pill">US 3D / calcâneo <b>2</b></span>
+    <span class="pill">Carga viral HIV / CD4 <b>1</b></span>
+    <span class="pill">Toxicológico <b>1</b></span>
+    <span class="pill">Convênio Unimed <b>1</b></span>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Anúncio (post)</th><th>Assunto inferido pelas conversas</th><th class="num">Conversas</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">instagram.com/p/DbLUDoKs4ZW</td><td>Combo laboratorial</td><td class="num">24</td></tr>
+      <tr><td class="mono">instagram.com/p/DYFQJ3bjFiA</td><td>Ultrassom (morfológica, obstétrica)</td><td class="num">15</td></tr>
+      <tr><td class="mono">instagram.com/p/DZXoKkBjDkE</td><td>Combo da mulher</td><td class="num">13</td></tr>
+      <tr><td class="mono">instagram.com/p/DZXpphJDPj4</td><td>Combo saúde do idoso</td><td class="num">6</td></tr>
+      <tr><td>Outros 3 ("Agende já!")</td><td>Diversos</td><td class="num">3</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Uma conversa pode ter vindo de mais de um anúncio, por isso a soma passa de 55.</p>
+</section>
+
+<section>
+  <span class="eyebrow">Plano</span>
+  <h2>Pontos de melhoria, por prioridade</h2>
+  <div class="two">
+    <div class="card">
+      <span class="chip crit" style="align-self:flex-start">Esta semana</span>
+      <ol>
+        <li><b>Separar os números.</b> Médicos, pagamentos, laudos e fornecedores vão para um número interno. O número comercial fica só para pacientes. Laudos devem ser entregues por PDF ou portal, nunca .docx editável.</li>
+        <li><b>Regra clínica.</b> A recepção não responde dúvidas clínicas. Deve usar um texto padrão: "Vou confirmar com o médico e te respondo até as HH:MM", e cumprir o horário.</li>
+        <li><b>Uma saudação só.</b> Ajustar a mensagem automática para não pedir o nome se a atendente for pedir. Criar uma mensagem de ausência honesta para fora do horário, com horário de funcionamento e os combos.</li>
+        <li><b>Tabela única.</b> Uma tabela de preços oficial e um endereço oficial com link do Google Maps, salvos como respostas rápidas.</li>
+        <li><b>Fechar todo agendamento por escrito.</b> Enviar nome, exame, data, hora, endereço, preparo e forma de pagamento.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <span class="chip warn" style="align-self:flex-start">Este mês</span>
+      <ol start="6">
+        <li><b>Etiquetas no WhatsApp Business:</b> Novo lead · Orçamento enviado · Agendado · Compareceu · Faltou/Remarcar. Revisar diariamente.</li>
+        <li><b>Follow-up com horário concreto</b> no dia seguinte e 3 dias depois: "Tenho amanhã 08:30 ou 10:00, qual prefere?"</li>
+        <li><b>Confirmação de véspera com remarcação</b> e lista de espera para preencher as vagas de quem cancela.</li>
+        <li><b>Mensagem pronta dos anúncios</b> trocada de "🟢 Online" por uma pergunta ("Quero saber o valor do combo da mulher"). Criar uma resposta rápida por anúncio.</li>
+        <li><b>Orçamento limpo:</b> itens, total e forma de pagamento, terminando em convite para agendar.</li>
+        <li><b>Avaliar mais um turno de ginecologia</b> e registrar a demanda por especialidades que a clínica ainda não tem.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Proposta</span>
+  <h2>Script sugerido</h2>
+  <p>Este roteiro aproveita o que já funciona na clínica e completa as etapas que estão faltando. Cada bloco pode virar uma resposta rápida no WhatsApp Business.</p>
+  <div class="script">
+    <div class="step"><span class="n">1</span><div><h3>Abertura (automática, dentro do horário)</h3><blockquote>Olá! Aqui é a Keila, da Clinmed 💚 Me conta seu nome e o que você precisa (consulta, exame ou orçamento) que eu já te ajudo.</blockquote></div></div>
+    <div class="step"><span class="n">2</span><div><h3>Fora do horário</h3><blockquote>Olá! A Clinmed atende de segunda a sexta, das 07:30 às 17:00. Deixe seu nome e o que precisa (se tiver pedido médico, mande a foto) que amanhã cedo a gente responde com valores e horários.</blockquote></div></div>
+    <div class="step"><span class="n">3</span><div><h3>Preço sempre com o próximo passo</h3><blockquote>[Nome], a ultrassom transvaginal está R$ 100,00 (pix, dinheiro ou até 2x no cartão), com resultado no dia seguinte. Tenho amanhã às 08:30 ou às 14:30. Qual fica melhor?</blockquote></div></div>
+    <div class="step"><span class="n">4</span><div><h3>Confirmação escrita (sempre)</h3><blockquote>Tudo certo, [nome completo]!
+📅 [dia da semana], [dd/mm] às [hh:mm]: [exame/consulta]
+📍 Av. do Mercado Central, 171B, Centro (em frente ao Eletro Mateus) · [link do Maps]
+📝 Preparo: [jejum / bexiga cheia / levar pedido e documento]
+💳 Pix, dinheiro ou cartão em até 2x
+Se precisar remarcar, é só avisar por aqui.</blockquote></div></div>
+    <div class="step"><span class="n">5</span><div><h3>Véspera</h3><blockquote>Oi, [nome]! Passando para confirmar seu [exame] amanhã às [hh:mm]. Responda 1 para confirmar ou 2 para remarcar.</blockquote><p class="small" style="margin-top:6px">Se a resposta for 2, já ofereça duas novas datas.</p></div></div>
+    <div class="step"><span class="n">6</span><div><h3>Dúvida clínica</h3><blockquote>Boa pergunta, [nome]. Vou confirmar com o(a) Dr(a). [nome] e te respondo até as [hh:mm].</blockquote></div></div>
+    <div class="step"><span class="n">7</span><div><h3>Quando a clínica não oferece</h3><blockquote>No momento não temos [especialidade/exame]. Posso anotar seu contato e te aviso quando tivermos? Enquanto isso, temos [alternativa relacionada], se ajudar.</blockquote></div></div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Método</span>
+  <h2>Como a análise foi feita</h2>
+  <div class="card">
+    <ul>
+      <li>Todas as mensagens dos últimos 7 dias foram extraídas pela API Uazapi: 177 conversas e 2.094 mensagens (1.049 da clínica e 1.045 recebidas). Os dados ficam salvos em banco SQLite para consultas futuras.</li>
+      <li>Ficaram fora das métricas de atendimento 17 conversas que não são de pacientes: médicos, gestão, fornecedores, spam, 2 grupos e o próprio número.</li>
+      <li>Todas as transcrições foram lidas. Os tempos de resposta ignoram a saudação automática. "Horário comercial" significa segunda a sexta, das 07:30 às 17:00.</li>
+      <li>Áudios, imagens e PDFs não foram abertos. As conclusões sobre eles vêm do texto em volta.</li>
+      <li>Contagens de agendamento e conversão são aproximadas, porque parte das conversas começou antes do período analisado.</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  const data=[[0,1],[1,1],[2,0],[3,0],[4,0],[5,0],[6,2],[7,31],[8,81],[9,113],[10,73],[11,183],[12,74],[13,39],[14,77],[15,83],[16,85],[17,34],[18,4],[19,3],[20,1],[21,4],[22,3],[23,0]];
+  const svg=document.getElementById('hours'), tip=document.getElementById('tip'), box=document.getElementById('chart');
+  const W=640,H=220,L=34,R=8,T=10,B=26, max=200, bw=(W-L-R)/24;
+  const y=v=>T+(H-T-B)*(1-v/max);
+  let s='';
+  [0,50,100,150,200].forEach(v=>{s+=`<line class="grid" x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L-6}" y="${y(v)+3}" text-anchor="end">${v}</text>`;});
+  data.forEach(([h,v])=>{
+    const x=L+h*bw+1, w=bw-2, off=(h<8||h>=17);
+    const hgt=Math.max(0,(H-B)-y(v)); const r=Math.min(4,hgt/2,w/2);
+    if(v>0){
+      const top=y(v), base=H-B;
+      s+=`<path d="M${x},${base} V${top+r} Q${x},${top} ${x+r},${top} H${x+w-r} Q${x+w},${top} ${x+w},${top+r} V${base} Z" fill="var(${off?'--bar-dim':'--bar'})"/>`;
+    }
+    s+=`<rect x="${L+h*bw}" y="${T}" width="${bw}" height="${H-T-B}" fill="transparent" data-h="${h}" data-v="${v}"/>`;
+    if(h%3===0) s+=`<text x="${x+w/2}" y="${H-8}" text-anchor="middle">${String(h).padStart(2,'0')}h</text>`;
+  });
+  s+=`<text x="${L+11*bw+bw/2}" y="${y(183)-5}" text-anchor="middle" style="fill:var(--ink)">183</text>`;
+  svg.innerHTML=s;
+  svg.addEventListener('mousemove',e=>{
+    const t=e.target; if(!t.dataset||t.dataset.h===undefined){tip.hidden=true;return;}
+    const h=+t.dataset.h; tip.textContent=`${String(h).padStart(2,'0')}:00–${String(h).padStart(2,'0')}:59 · ${t.dataset.v} mensagens`;
+    const b=box.getBoundingClientRect(); tip.hidden=false;
+    tip.style.left=Math.min(e.clientX-b.left+12,b.width-190)+'px'; tip.style.top=(e.clientY-b.top-34)+'px';
+  });
+  svg.addEventListener('mouseleave',()=>tip.hidden=true);
+})();
+</script>
