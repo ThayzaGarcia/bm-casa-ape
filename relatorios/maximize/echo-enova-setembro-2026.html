@@ -1,0 +1,1005 @@
+<title data-own>Echoenergia & Enova · Setembro 2026</title>
+<link data-own rel="preconnect" href="https://fonts.googleapis.com">
+<link data-own rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link data-own href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style data-own>
+/* Deck de tela cheia no padrão dos relatórios Pátio Norte / Marreca: chão claro, capítulos em verde-escuro, números grandes em Outfit. */
+:root{
+  color-scheme:light;
+  --ground:#F7F7F2; --paper:#FFFFFF; --sunk:#EFEFE8;
+  --ink:#1D2420; --muted:#56605A; --faint:#8C948F;
+  --line:#E1E3DC; --line-soft:#ECEDE7;
+  --green:#1F6B45; --green-2:#2E8A5C; --gold:#C2860F; --blue:#2F6A9C; --sky:#79AFD6; --grey-bar:#D5D8D0;
+  --red:#A63D2F; --red-soft:#F6E7E3;
+  --deep:#13241B; --on-deep:#FFFFFF; --on-deep-2:rgba(255,255,255,.64); --on-deep-3:rgba(255,255,255,.42); --accent-deep:#E9B949;
+  --disp:"Outfit",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;background:var(--ground);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+
+/* ---------- chrome ---------- */
+.bar{position:fixed;top:0;left:0;height:3px;background:var(--gold);z-index:40;transition:width .35s ease}
+.topbar{position:fixed;top:0;left:0;right:0;height:calc(54px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 34px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);background:rgba(247,247,242,.94);backdrop-filter:blur(8px);z-index:30}
+.topbar .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr{display:flex;align-items:center;gap:10px}
+.eb{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line);background:var(--paper);color:var(--muted);border-radius:3px;padding:7px 10px;cursor:pointer;white-space:nowrap}
+.eb:hover{border-color:var(--gold);color:var(--ink)}
+.eb.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.eb.save{background:var(--green);border-color:var(--green);color:#fff}
+.eb:disabled{opacity:.5;cursor:default}
+#msg{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);max-width:280px}
+.bottombar{position:fixed;bottom:0;left:0;right:0;height:calc(66px + env(safe-area-inset-bottom,0px));padding:0 34px env(safe-area-inset-bottom,0px);display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);background:rgba(247,247,242,.94);backdrop-filter:blur(8px);z-index:30}
+.tabs{display:flex;gap:20px;flex-wrap:wrap}
+.tab{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);cursor:pointer;padding:0 0 3px;border:0;border-bottom:2px solid transparent;background:none}
+.tab:hover{color:var(--muted)}
+.tab.on{color:var(--ink);border-bottom-color:var(--gold)}
+.tab:focus-visible,.arrows button:focus-visible,.eb:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.arrows{display:flex;gap:8px}
+.arrows button{width:38px;height:34px;border:1px solid var(--line);background:var(--paper);border-radius:3px;color:var(--muted);cursor:pointer;font-size:15px;line-height:1}
+.arrows button:hover{border-color:var(--green);color:var(--green)}
+
+/* ---------- edição ---------- */
+body.editing [data-edit]{outline:1px dashed var(--gold);outline-offset:3px;background:rgba(194,134,15,.06);cursor:text;border-radius:2px}
+body.editing [data-edit]:focus{outline:2px solid var(--gold);background:rgba(194,134,15,.1)}
+
+/* ---------- stage ---------- */
+.stage{position:fixed;top:calc(54px + env(safe-area-inset-top,0px));bottom:calc(66px + env(safe-area-inset-bottom,0px));left:0;right:0;overflow:hidden}
+.slide{position:absolute;inset:0;display:none;overflow-y:auto;padding:28px 34px}
+.slide.on{display:flex}
+.wrap{width:100%;max-width:1200px;margin:auto}
+
+/* ---------- type ---------- */
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--green);margin-bottom:9px}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(26px,3.3vw,44px);line-height:1.04;letter-spacing:-.025em;margin:0 0 14px;text-wrap:balance}
+.lead{font-size:15px;line-height:1.55;color:var(--muted);max-width:860px;margin:0 0 22px}
+.lead.center{margin-left:auto;margin-right:auto;text-align:center}
+.foot{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--faint);margin-top:16px;line-height:1.65;max-width:1040px}
+.foot.center{text-align:center;margin-left:auto;margin-right:auto}
+strong{font-weight:700;color:var(--ink)}
+.pend{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);background:var(--red-soft);padding:3px 7px;border-radius:3px;vertical-align:middle}
+.up{color:var(--green);font-weight:600}
+.dn{color:var(--red);font-weight:600}
+
+/* ---------- kpis ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:18px 18px 16px;border-top:3px solid var(--line);min-width:0}
+.kpi.g{border-top-color:var(--gold)} .kpi.b{border-top-color:var(--blue)} .kpi.p{border-top-color:var(--green)} .kpi.r{border-top-color:var(--red)}
+.kpi .v{font-family:var(--disp);font-weight:700;font-size:clamp(21px,2.3vw,33px);line-height:1.04;letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi.g .v{color:var(--gold)} .kpi.b .v{color:var(--blue)} .kpi.p .v{color:var(--green)} .kpi.r .v{color:var(--red)}
+.kpi .v.na{color:var(--grey-bar)}
+.kpi .l2{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:7px}
+.kpi .s2{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
+
+/* ---------- bars ---------- */
+.rows{margin-top:4px}
+.row{display:flex;align-items:center;gap:14px;padding:7px 0;border-bottom:1px solid var(--line-soft)}
+.row:last-child{border-bottom:0}
+.row .lbl{width:210px;flex:0 0 210px;font-size:13.5px;font-weight:600;line-height:1.2}
+.row .lbl .sub{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:400;margin-top:3px}
+.row .track{display:block;flex:1;height:19px;background:var(--sunk);border-radius:2px;overflow:hidden;min-width:0}
+.row .fill{display:block;height:19px;border-radius:2px;background:var(--blue)}
+.row .fill.p{background:var(--green)} .row .fill.g{background:var(--gold)} .row .fill.sk{background:var(--sky)} .row .fill.f{background:var(--grey-bar)}
+.row .val{width:150px;flex:0 0 150px;text-align:right;font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.row .val span{display:block;font-size:9.5px;color:var(--faint);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.tight .row{padding:4px 0}
+.tight .row .lbl{font-size:13px}
+.tight .row .track,.tight .row .fill{height:15px}
+
+/* ---------- stacked bar ---------- */
+.stack{display:flex;gap:4px;align-items:center;margin:10px 0}
+.stack-lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);width:110px;flex:none}
+.seg{height:46px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:#fff;white-space:nowrap;overflow:hidden;padding:0 8px}
+.seg.p{background:var(--green)} .seg.b{background:var(--blue)} .seg.sk{background:var(--sky);color:var(--ink)} .seg.g{background:var(--gold)}
+
+/* ---------- table ---------- */
+.tblwrap{background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
+th{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:right;padding:10px 12px;border-bottom:1px solid var(--line);font-weight:400;vertical-align:bottom}
+th:first-child,td:first-child{text-align:left}
+td{padding:7px 12px;border-bottom:1px solid var(--line-soft);text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+td.nm{font-weight:600;text-align:left}
+td.nm a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+td.nm a:hover{border-bottom-color:var(--blue)}
+td.nm .sub{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:400;margin-top:2px}
+td.inv{color:var(--gold);font-weight:600}
+td.hl{color:var(--green);font-weight:600}
+td.lo{color:var(--red);font-weight:600}
+tr.sum td{background:var(--sunk);font-weight:700;border-top:2px solid var(--ink);border-bottom:0}
+.dense table{font-size:12px}
+.dense th{padding:8px 9px;font-size:9px}
+.dense td{padding:5px 9px}
+td.ed{min-width:64px}
+body.editing td.ed{background:rgba(194,134,15,.06)}
+
+/* ---------- cards ---------- */
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))} .g3{grid-template-columns:repeat(3,minmax(0,1fr))} .g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:17px;min-width:0}
+.card .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint);margin-bottom:9px}
+.card h3{font-family:var(--disp);font-weight:700;font-size:17px;margin:0 0 8px;letter-spacing:-.015em}
+.card h3.p{color:var(--green)} .card h3.b{color:var(--blue)} .card h3.g{color:var(--gold)} .card h3.r{color:var(--red)}
+.card p{margin:0;font-size:13px;line-height:1.55;color:var(--muted)}
+.card .n{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin-bottom:4px}
+.card ul{margin:8px 0 0;padding-left:16px;font-size:13px;line-height:1.5;color:var(--muted)}
+.card li{margin-bottom:4px}
+.card.obs{border-left:3px solid var(--gold)}
+.card.obs .k{color:var(--gold)}
+.card.pendc{border-style:dashed;background:transparent}
+
+/* ---------- post cards ---------- */
+.post{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:15px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.post .rk{font-family:var(--disp);font-weight:800;font-size:28px;color:var(--grey-bar);line-height:1}
+.post .fmt{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+.post .cap{font-size:13px;line-height:1.45;color:var(--ink);font-weight:500;min-height:56px}
+.post .ms{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;border-top:1px solid var(--line-soft);padding-top:8px}
+.post .ms div{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.post .ms b{display:block;font-family:var(--disp);font-size:18px;letter-spacing:-.02em;color:var(--ink);text-transform:none}
+.post .er{font-family:var(--mono);font-size:11px;color:var(--gold);font-weight:500}
+.post a{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+
+/* ---------- gráfico anual ---------- */
+.mbtns{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 12px}
+.mbtn{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line);background:var(--paper);color:var(--muted);border-radius:3px;padding:6px 10px;cursor:pointer}
+.mbtn.on{border-color:var(--green);color:var(--green);background:rgba(31,107,69,.06)}
+.chart{display:flex;align-items:flex-end;gap:10px;height:190px;padding:14px 14px 0;background:var(--paper);border:1px solid var(--line);border-radius:4px}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+.col .cv{font-family:var(--mono);font-size:10.5px;color:var(--ink);margin-bottom:4px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.col .cb{width:100%;max-width:56px;background:var(--green);border-radius:2px 2px 0 0;transition:height .5s cubic-bezier(.22,1,.36,1)}
+.col .cb.cur{background:var(--gold)}
+.col .cb.na{background:repeating-linear-gradient(45deg,var(--grey-bar),var(--grey-bar) 4px,transparent 4px,transparent 8px);height:6px}
+.col .cm{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:6px 0 8px}
+
+/* ---------- dark slides ---------- */
+.cover,.divider,.final{background:var(--deep)}
+.cover .wrap,.divider .wrap,.final .wrap{text-align:center}
+.cover .ck,.divider .k{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent-deep)}
+.cover .name{font-family:var(--disp);font-weight:800;font-size:clamp(42px,7.4vw,104px);letter-spacing:-.045em;line-height:.92;color:var(--on-deep);margin:18px 0 10px}
+.cover .num{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--on-deep-3)}
+.cover h1{color:var(--on-deep);font-size:clamp(22px,2.6vw,34px);font-weight:600;margin:30px 0 10px}
+.cover .lead,.divider .lead,.final .lead{color:var(--on-deep-2);margin-left:auto;margin-right:auto;text-align:center}
+.cover .cf{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--on-deep-3);margin-top:34px;line-height:1.8}
+.divider h1,.final h1{color:var(--on-deep);font-size:clamp(30px,4.4vw,58px)}
+.dnums{display:flex;justify-content:center;gap:54px;margin-top:34px;flex-wrap:wrap}
+.dnums .v{font-family:var(--disp);font-weight:700;font-size:clamp(24px,3vw,40px);color:var(--on-deep);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.dnums .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--on-deep-3);margin-top:7px}
+.final .foot{color:var(--on-deep-3)}
+.divider .pend{background:rgba(233,185,73,.16);color:var(--accent-deep)}
+
+@media (max-width:900px){
+  .topbar,.bottombar{padding-left:16px;padding-right:16px}
+  .topbar .t.l{display:none}
+  .slide{padding:22px 16px}
+  .kpis,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3,.g2{grid-template-columns:minmax(0,1fr)}
+  .row .lbl{width:118px;flex:0 0 118px}
+  .row .val{width:104px;flex:0 0 104px;font-size:11.5px}
+  .stack-lbl{width:72px}
+  .tabs{gap:12px}
+  .chart{gap:4px;padding:10px 6px 0}
+  .col .cv{font-size:8.5px}
+  #msg{display:none}
+}
+@media (max-width:620px){
+  .tabs{display:none}
+  .dnums{gap:26px}
+  .seg{font-size:10.5px}
+  .kpi .v{white-space:normal}
+  .kpis,.g4{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div data-own class="bar" id="bar" style="width:0"></div>
+<div data-own class="topbar">
+  <div class="t l">Echoenergia & Enova · Redes sociais · Setembro 2026</div>
+  <div class="tr">
+    <span id="msg" role="status" aria-live="polite"></span>
+    <button class="eb" id="editBtn" type="button" title="Liberar edição das defesas e observações">✎ Editar defesas</button>
+    <button class="eb save" id="saveBtn" type="button" hidden>Salvar versão</button>
+    <div class="t" id="cnt">01 / 27</div>
+  </div>
+</div>
+
+<div data-own class="stage" id="stage">
+
+<!-- 01 CAPA -->
+<section class="slide cover">
+  <div class="wrap">
+    <div class="ck">Relatório de desempenho · Redes sociais</div>
+    <div class="name">Echoenergia<br>& Enova</div>
+    <div class="num">Echoenergia · Enova Energia Solar</div>
+    <h1>Setembro 2026</h1>
+    <p class="lead">Instagram, Facebook, YouTube e LinkedIn. Período de 1 a 30 de setembro de 2026, com comparativos em relação a agosto.</p>
+    <div class="cf">128.062 contas alcançadas no Instagram · 94 novos seguidores · R$ 9.227,86 em mídia · 23 criativos no feed</div>
+  </div>
+</section>
+
+<!-- 02 O MÊS EM UMA TELA -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Visão geral · Echoenergia</div>
+    <h1 data-edit>A mídia voltou e dobrou o alcance. A comunidade cresceu pelo orgânico.</h1>
+    <div class="kpis">
+      <div class="kpi b"><div class="v">128.062</div><div class="l2">Alcance · Instagram</div><div class="s2"><span class="up">↑ 120,5%</span> vs. agosto (58.077)</div></div>
+      <div class="kpi r"><div class="v">1.056</div><div class="l2">Interações · Instagram</div><div class="s2"><span class="dn">↓ 58,4%</span> vs. agosto (2.541)*</div></div>
+      <div class="kpi p"><div class="v">+94</div><div class="l2">Novos seguidores · Instagram</div><div class="s2"><span class="up">↑ 19%</span> · 16.120 seguidores ao todo</div></div>
+      <div class="kpi p"><div class="v">7,4%</div><div class="l2">Taxa de retenção · Instagram</div><div class="s2"><span class="up">↑ 0,9 p.p.</span> vs. agosto (6,5%)</div></div>
+    </div>
+    <div class="kpis" style="margin-top:12px">
+      <div class="kpi g"><div class="v">R$ 9.227,86</div><div class="l2">Mídia paga · Instagram</div><div class="s2">24 anúncios · 129.325 contas alcançadas</div></div>
+      <div class="kpi"><div class="v">82.645</div><div class="l2">Alcance da página · Facebook</div><div class="s2">1.899 fãs · +3 no mês</div></div>
+      <div class="kpi"><div class="v">232</div><div class="l2">Visualizações · YouTube</div><div class="s2"><span class="up">↑ 56,8%</span> · nenhum vídeo novo</div></div>
+      <div class="kpi"><div class="v na">—</div><div class="l2">LinkedIn</div><div class="s2"><span class="pend">aguardando acesso</span></div></div>
+    </div>
+    <div class="card obs" style="margin-top:12px"><div class="k">Leitura do mês</div><p data-edit>Setembro marca a retomada da mídia paga na Echo: com R$ 9,2 mil investidos, o alcance do Instagram mais que dobrou em relação a agosto. As interações não acompanharam essa escala, porque a verba foi para anúncios de conversão sobre a conta de energia. Esses anúncios entregam alcance, mas quase não geram interação: foram 61 em todo o mês. O crescimento da comunidade veio do orgânico, com 94 novos seguidores e taxa de retenção acima de agosto, puxado pelos conteúdos educativos sobre o Mercado Livre de Energia.</p></div>
+    <div class="foot" data-edit>* Agosto foi medido pelo Meta Business Suite e setembro pelo Buzzmonitor. As duas ferramentas contam interações de formas diferentes, então a queda de 58% deve ser lida como tendência, não como valor exato.</div>
+  </div>
+</section>
+
+<!-- 03 DIVISOR INSTAGRAM -->
+<section class="slide divider">
+  <div class="wrap">
+    <div class="k">Capítulo 01 · Echoenergia</div>
+    <h1>Instagram</h1>
+    <p class="lead" data-edit>Desempenho do perfil @echoenergia: alcance, comunidade, conteúdos, stories, público e mídia paga.</p>
+    <div class="dnums">
+      <div><div class="v">128.062</div><div class="l">Contas alcançadas</div></div>
+      <div><div class="v">1.265</div><div class="l">Visitas ao perfil</div></div>
+      <div><div class="v">16.120</div><div class="l">Seguidores</div></div>
+      <div><div class="v">23</div><div class="l">Criativos no feed</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 DESEMPENHO MENSAL -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Desempenho mensal</div>
+    <h1 data-edit>Mais gente viu a Echo e mais gente virou seguidora</h1>
+    <div class="kpis">
+      <div class="kpi b"><div class="v">128.062</div><div class="l2">Alcance</div><div class="s2"><span class="up">↑ 120,5%</span> em relação a agosto</div></div>
+      <div class="kpi b"><div class="v">1.265</div><div class="l2">Visitas ao perfil</div><div class="s2"><span class="up">↑ 4,8%</span> em relação a agosto (1.207)</div></div>
+      <div class="kpi r"><div class="v">1.056</div><div class="l2">Interações</div><div class="s2"><span class="dn">↓ 58,4%</span> em relação a agosto · 35,2 por dia</div></div>
+      <div class="kpi p"><div class="v">+94</div><div class="l2">Novos seguidores</div><div class="s2"><span class="up">↑ 19%</span> · total de 16.120 seguidores</div></div>
+    </div>
+    <div class="kpis" style="margin-top:12px">
+      <div class="kpi p"><div class="v">7,4%</div><div class="l2">Taxa de retenção</div><div class="s2">Novos seguidores ÷ visitas ao perfil × 100 · <span class="up">↑ 0,9 p.p.</span></div></div>
+      <div class="kpi"><div class="v">23</div><div class="l2">Número de criativos</div><div class="s2">+2 em relação a agosto (21)</div></div>
+      <div class="kpi g"><div class="v">0,8%</div><div class="l2">Taxa de engajamento</div><div class="s2">Interações ÷ alcance total · 7,6% sobre o alcance orgânico</div></div>
+      <div class="kpi"><div class="v">67</div><div class="l2">Cliques no site</div><div class="s2">pelo link do perfil · 2,2 por dia</div></div>
+    </div>
+    <div class="card obs" style="margin-top:12px"><div class="k">Observações</div><p data-edit>A retomada da mídia devolveu escala à Echo: o alcance passou de 58 mil para 128 mil contas. Mais pessoas visitaram o perfil (+4,8%) e mais visitantes viraram seguidores, o que levou a retenção de 6,5% para 7,4%. Esse movimento confirma o aprendizado de agosto: a mídia traz gente nova para o perfil e o conteúdo converte essa visita em comunidade. A taxa de engajamento sobre o alcance total caiu para 0,8% porque 90% do alcance veio dos anúncios, que não pedem interação. Sobre o alcance orgânico, o engajamento é de 7,6%, em linha com a média por post (7,3%).</p></div>
+    <div class="foot" data-edit>Visitas ao perfil e novos seguidores foram exportados para o período de 02/09 a 02/10; os demais dados, de 01/09 a 30/09. Taxa de retenção de agosto recalculada com os números do relatório anterior: 79 ÷ 1.207 = 6,5% (arredondada para 7% naquele relatório).</div>
+  </div>
+</section>
+
+<!-- 05 ORGÂNICO x PATROCINADO -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Alcance orgânico x patrocinado</div>
+    <h1 data-edit>Nove em cada dez contas alcançadas chegaram pela mídia</h1>
+    <div class="stack"><div class="stack-lbl">Alcance</div>
+      <div class="seg b" style="width:90.3%">Patrocinado · 129.325</div>
+      <div class="seg p" style="width:9.7%">13.825</div>
+    </div>
+    <div class="kpis" style="margin-top:14px">
+      <div class="kpi p"><div class="v">13.825</div><div class="l2">Alcance orgânico</div><div class="s2">das publicações · 461 contas por dia</div></div>
+      <div class="kpi b"><div class="v">129.325</div><div class="l2">Alcance patrocinado</div><div class="s2">4.311 contas por dia</div></div>
+      <div class="kpi"><div class="v">23.946</div><div class="l2">Visualizações orgânicas</div><div class="s2">798 por dia · 9.207 em Reels</div></div>
+      <div class="kpi"><div class="v">10h28</div><div class="l2">Tempo assistido em Reels</div><div class="s2"><span class="dn">↓ 6,4%</span> · 10h27min52s no mês</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card obs"><div class="k">Observações · Alcance</div><p data-edit>O alcance total de 128 mil contas é sustentado pela mídia, que respondeu por cerca de 90% das contas alcançadas. O orgânico somou 13.825 contas nas publicações do mês. O pico foi em 27/09, com 10.512 contas em um único dia. Com a verba de volta, a análise de conteúdo precisa separar o que é escala comprada do que é circulação espontânea, e por isso os destaques deste relatório olham para o desempenho orgânico de cada post.</p></div>
+      <div class="card obs"><div class="k">Observações · Reels</div><p data-edit>Os Reels somaram 9.207 visualizações e 10h28 de tempo assistido, 6,4% a menos que no mês anterior. A taxa de evasão dos Reels do top 12 ficou entre 61% e 75%: a maior parte das pessoas sai antes do fim. Os vídeos sobre o Mercado Livre de Energia seguraram melhor a audiência (63% a 67% de evasão) do que o Reels da área de Experiência do Cliente e o do e-book sobre a conta (75%).</p></div>
+    </div>
+    <div class="foot" data-edit>A soma do orgânico com o patrocinado (143.150) é maior que o alcance total (128.062) porque a mesma conta pode ter sido alcançada pelos dois caminhos. A partir de junho/26 a Meta deixou de informar o alcance pago único da página, então a divisão mostrada aqui usa o alcance orgânico das publicações e o alcance dos anúncios.</div>
+  </div>
+</section>
+
+<!-- 06 DEMONSTRATIVO ANUAL -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Demonstrativo anual</div>
+    <h1 data-edit>Evolução mês a mês em 2026</h1>
+    <div class="mbtns" id="mbtns" data-chart="ig">
+      <button class="mbtn on" type="button" data-m="0">Alcance</button>
+      <button class="mbtn" type="button" data-m="1">Interações</button>
+      <button class="mbtn" type="button" data-m="2">Visitas ao perfil</button>
+      <button class="mbtn" type="button" data-m="3">Novos seguidores</button>
+      <button class="mbtn" type="button" data-m="4">Seguidores totais</button>
+      <button class="mbtn" type="button" data-m="5">Taxa de retenção</button>
+    </div>
+    <div class="chart" id="chart-ig" aria-label="Gráfico mensal"></div>
+    <div class="tblwrap dense" style="margin-top:12px">
+      <table id="tbl-ig">
+        <thead><tr><th>Métrica</th><th>Jan</th><th>Fev</th><th>Mar</th><th>Abr</th><th>Mai</th><th>Jun</th><th>Jul</th><th>Ago</th><th>Set</th></tr></thead>
+        <tbody>
+          <tr><td class="nm">Alcance</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>58.077</td><td class="ed" data-edit>128.062</td></tr>
+          <tr><td class="nm">Interações</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>2.541</td><td class="ed" data-edit>1.056</td></tr>
+          <tr><td class="nm">Visitas ao perfil</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>1.207</td><td class="ed" data-edit>1.265</td></tr>
+          <tr><td class="nm">Novos seguidores</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>79</td><td class="ed" data-edit>94</td></tr>
+          <tr><td class="nm">Seguidores totais</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>—</td><td class="ed" data-edit>16.025</td><td class="ed" data-edit>16.120</td></tr>
+          <tr class="sum"><td>Taxa de retenção</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="foot" data-edit>A taxa de retenção é calculada automaticamente (novos seguidores ÷ visitas × 100). Para completar a série, clique em “Editar defesas”, preencha os meses de janeiro a julho na tabela e salve a versão: o gráfico se atualiza sozinho. Fonte de janeiro a agosto: relatórios mensais anteriores (Meta Business Suite).</div>
+  </div>
+</section>
+
+<!-- 07 INTERAÇÕES -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Interações e engajamento</div>
+    <h1 data-edit>O conteúdo da Echo é mais compartilhado do que comentado</h1>
+    <div class="grid g2">
+      <div>
+        <div class="rows">
+          <div class="row"><div class="lbl">Curtidas<span class="sub">79,5% das interações</span></div><span class="track"><span class="fill p" data-w="100%" style="width:100%"></span></span><div class="val">839</div></div>
+          <div class="row"><div class="lbl">Compartilhamentos<span class="sub">10,6%</span></div><span class="track"><span class="fill g" data-w="13.3%" style="width:13.3%"></span></span><div class="val">112</div></div>
+          <div class="row"><div class="lbl">Comentários<span class="sub">7,7%</span></div><span class="track"><span class="fill" data-w="9.7%" style="width:9.7%"></span></span><div class="val">81</div></div>
+          <div class="row"><div class="lbl">Salvamentos<span class="sub">2,3%</span></div><span class="track"><span class="fill sk" data-w="2.9%" style="width:2.9%"></span></span><div class="val">24</div></div>
+        </div>
+        <div class="grid g2" style="margin-top:14px">
+          <div class="card"><div class="k">Engajamento de seguidores</div><div class="n">0,22%</div><p>média diária · máximo de 0,93% em 30/09</p></div>
+          <div class="card"><div class="k">Engajamento de alcance</div><div class="n">7,31%</div><p>média por post · máximo de 21,61% em 15/09</p></div>
+        </div>
+      </div>
+      <div class="card obs"><div class="k">Observações</div><p data-edit>Foram 1.056 interações no feed, 35 por dia. A distribuição mostra um comportamento típico de conteúdo útil: o público compartilha mais do que comenta (112 compartilhamentos contra 81 comentários). Mais da metade dos compartilhamentos do top 12 está nos posts sobre conta de energia e Mercado Livre, temas que as pessoas repassam para colegas e gestores. Os salvamentos ainda são baixos (24) e aparecem com mais força no conteúdo sobre energia solar por assinatura (12 dos 24). Formatos de consulta, como guias e checklists, podem aumentar esse número.</p></div>
+    </div>
+    <div class="foot" data-edit>Interações do feed (curtidas, comentários, compartilhamentos e salvamentos) de 01/09 a 30/09, sem os anúncios. Engajamento de alcance = interações ÷ alcance do post × 100.</div>
+  </div>
+</section>
+
+<!-- 08 FORMATOS E EDITORIAS -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Detalhamento por editorias e formatos</div>
+    <h1 data-edit>Mercado Livre de Energia é o tema que mais engaja</h1>
+    <div class="grid g2">
+      <div>
+        <div class="card" style="margin-bottom:12px"><div class="k">Distribuição por editoria · interações do top 12</div>
+          <div class="rows tight">
+            <div class="row"><div class="lbl">Educativo<span class="sub">Mercado Livre e conta de energia · 6 posts</span></div><span class="track"><span class="fill p" data-w="100%" style="width:100%"></span></span><div class="val">548<span>60% das interações</span></div></div>
+            <div class="row"><div class="lbl">Institucional<span class="sub">Cliente e CONAREC · 3 posts</span></div><span class="track"><span class="fill" data-w="35.2%" style="width:35.2%"></span></span><div class="val">193<span>21%</span></div></div>
+            <div class="row"><div class="lbl">Produto<span class="sub">Energia solar por assinatura · 1 post</span></div><span class="track"><span class="fill g" data-w="13.7%" style="width:13.7%"></span></span><div class="val">75<span>8%</span></div></div>
+            <div class="row"><div class="lbl">Timing / sazonal<span class="sub">#TBT · 1 post</span></div><span class="track"><span class="fill sk" data-w="9.9%" style="width:9.9%"></span></span><div class="val">54<span>6%</span></div></div>
+            <div class="row"><div class="lbl">Inovação / ESG<span class="sub">Trackers solares · 1 post</span></div><span class="track"><span class="fill f" data-w="6.6%" style="width:6.6%"></span></span><div class="val">36<span>4%</span></div></div>
+          </div>
+        </div>
+        <div class="card"><div class="k">Distribuição por formato · top 12</div>
+          <div class="stack" style="margin:4px 0 0"><div class="seg p" style="width:83.3%">Reels · 10</div><div class="seg g" style="width:16.7%">2</div></div>
+          <p style="margin-top:8px">Carrossel / foto: 2 posts. A distribuição completa dos 23 criativos do mês <span class="pend">aguardando dados</span></p>
+        </div>
+      </div>
+      <div class="card obs"><div class="k">Categorização de conteúdos compartilhados</div>
+        <ul data-edit>
+          <li>Educativos: [preencher] conteúdos</li>
+          <li>Institucionais: [preencher] conteúdos</li>
+          <li>Timing / sazonalidade: [preencher] conteúdos</li>
+          <li>Produto: [preencher] conteúdos</li>
+          <li>ESG: [preencher] conteúdos</li>
+        </ul>
+        <p style="margin-top:12px" data-edit><strong>Temas que geraram mais engajamento:</strong> Educativo sobre Mercado Livre de Energia. Os dois posts com mais interações do mês falam da abertura do mercado, inclusive para pequenas e médias empresas, e somam 296 interações. Quando o tema conversa com o bolso do cliente (conta de energia, economia, quem pode migrar), o conteúdo engaja e é compartilhado.</p>
+      </div>
+    </div>
+    <div class="foot" data-edit>Editorias atribuídas a partir das legendas dos 12 posts com mais interações (906 das 1.056 interações do mês). A categorização dos 23 criativos deve ser confirmada pelo time de conteúdo.</div>
+  </div>
+</section>
+
+<!-- 09 CRIATIVOS MAIS RELEVANTES -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Criativos mais relevantes · feed · por interações</div>
+    <h1 data-edit>Três dos quatro destaques do mês são Reels educativos</h1>
+    <div class="grid g4">
+      <div class="post"><div class="rk">01</div><div class="fmt">Reels · Educativo</div><div class="cap">O Mercado Livre de Energia está se expandindo e novos tipos de empresas poderão escolher de quem comprar</div>
+        <div class="ms"><div>Interações<b>154</b></div><div>Alcance<b>1.303</b></div><div>Visualizações<b>2.331</b></div><div>Compartilh.<b>11</b></div></div>
+        <div class="er">Taxa de engajamento: 11,8%</div><a href="https://www.instagram.com/reel/Ddt3octzSbI/" target="_blank" rel="noopener">Ver post ↗</a></div>
+      <div class="post"><div class="rk">02</div><div class="fmt">Reels · Educativo</div><div class="cap">Mercado Livre de Energia também pode fazer sentido para pequenas e médias empresas</div>
+        <div class="ms"><div>Interações<b>142</b></div><div>Alcance<b>858</b></div><div>Visualizações<b>1.484</b></div><div>Comentários<b>24</b></div></div>
+        <div class="er">Taxa de engajamento: 16,6%</div><a href="https://www.instagram.com/reel/Dd6keyNTtOB/" target="_blank" rel="noopener">Ver post ↗</a></div>
+      <div class="post"><div class="rk">03</div><div class="fmt">Reels · Institucional</div><div class="cap">Na área de Experiência do Cliente, cada demanda, escuta e interação fazem parte de uma missão</div>
+        <div class="ms"><div>Interações<b>82</b></div><div>Alcance<b>599</b></div><div>Visualizações<b>1.023</b></div><div>Compartilh.<b>13</b></div></div>
+        <div class="er">Taxa de engajamento: 13,7%</div><a href="https://www.instagram.com/reel/DdrIj0szVrf/" target="_blank" rel="noopener">Ver post ↗</a></div>
+      <div class="post"><div class="rk">04</div><div class="fmt">Reels · Educativo</div><div class="cap">O que está por trás das variações na conta de energia? Explicação no nosso e-book</div>
+        <div class="ms"><div>Interações<b>81</b></div><div>Alcance<b>1.318</b></div><div>Visualizações<b>1.940</b></div><div>Compartilh.<b>12</b></div></div>
+        <div class="er">Taxa de engajamento: 6,1%</div><a href="https://www.instagram.com/reel/DdRrjnmzWXL/" target="_blank" rel="noopener">Ver post ↗</a></div>
+    </div>
+    <div class="card obs" style="margin-top:12px"><div class="k">Observações</div><p data-edit>Três dos quatro destaques são educativos e tratam de dinheiro: quem pode migrar para o Mercado Livre e por que a conta de energia varia. O post para pequenas e médias empresas teve a maior taxa de engajamento do top 4 (16,6%) e o maior número de comentários do mês (24), sinal de dúvida real do público. O Reels da área de Experiência do Cliente mantém a humanização entre os destaques e confirma o aprendizado de agosto: colaboradores em evidência geram conexão.</p></div>
+    <div class="foot">Taxa de engajamento = interações ÷ alcance orgânico do post. Interações = curtidas + comentários + compartilhamentos.</div>
+  </div>
+</section>
+
+<!-- 10 TABELA TOP 12 -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Desempenho dos criativos · top 12 por interações</div>
+    <h1 style="font-size:clamp(24px,3vw,40px)">Os 12 posts com mais interações</h1>
+    <div class="tblwrap dense">
+      <table>
+        <thead><tr><th>Post</th><th>Formato</th><th>Interações</th><th>Alcance</th><th>Visualiz.</th><th>Curtidas</th><th>Coment.</th><th>Compart.</th><th>Salvos</th><th>Engaj.<br>alcance</th><th>Evasão</th></tr></thead>
+        <tbody>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/Ddt3octzSbI/" target="_blank" rel="noopener">MLE está se expandindo</a><span class="sub">Educativo</span></td><td>Reels</td><td class="hl">154</td><td>1.303</td><td>2.331</td><td>125</td><td>18</td><td>11</td><td>3</td><td>11,8%</td><td>63,4%</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/Dd6keyNTtOB/" target="_blank" rel="noopener">MLE para pequenas e médias</a><span class="sub">Educativo</span></td><td>Reels</td><td class="hl">142</td><td>858</td><td>1.484</td><td>106</td><td>24</td><td>12</td><td>1</td><td class="hl">16,6%</td><td>66,9%</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/DdrIj0szVrf/" target="_blank" rel="noopener">Experiência do Cliente</a><span class="sub">Institucional</span></td><td>Reels</td><td>82</td><td>599</td><td>1.023</td><td>57</td><td>12</td><td>13</td><td>1</td><td>13,7%</td><td class="lo">75,1%</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/DdRrjnmzWXL/" target="_blank" rel="noopener">E-book: variações na conta</a><span class="sub">Educativo</span></td><td>Reels</td><td>81</td><td>1.318</td><td>1.940</td><td>58</td><td>11</td><td>12</td><td>1</td><td>6,1%</td><td class="lo">75,5%</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/Ddb3LavTv7l/" target="_blank" rel="noopener">Conta aumentou, consumo igual</a><span class="sub">Educativo</span></td><td>Reels</td><td>79</td><td>1.036</td><td>1.606</td><td>58</td><td>9</td><td>12</td><td>1</td><td>7,6%</td><td>71,3%</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/DdHFLJ6Nux9/" target="_blank" rel="noopener">Energia solar por assinatura</a><span class="sub">Produto</span></td><td>Reels</td><td>75</td><td>1.292</td><td>1.904</td><td>54</td><td>2</td><td class="hl">19</td><td class="hl">12</td><td>5,8%</td><td>68,1%</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/DdWiecIzID7/" target="_blank" rel="noopener">Semana do Cliente</a><span class="sub">Institucional</span></td><td>Reels</td><td>59</td><td>679</td><td>1.080</td><td>54</td><td>2</td><td>3</td><td>0</td><td>8,7%</td><td>61,0%</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/DdEj0hLz-Bp/" target="_blank" rel="noopener">Dúvidas frequentes sobre MLE</a><span class="sub">Educativo</span></td><td>Reels</td><td>58</td><td>915</td><td>1.380</td><td>42</td><td>9</td><td>7</td><td>2</td><td>6,3%</td><td>67,4%</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DdY_ZQtnDVy/" target="_blank" rel="noopener">#TBT ação com clientes</a><span class="sub">Timing</span></td><td>Carrossel</td><td>54</td><td>746</td><td>1.841</td><td>51</td><td>0</td><td>3</td><td>1</td><td>7,2%</td><td>—</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/Ddl-GPXTEBh/" target="_blank" rel="noopener">Vamos estar no CONAREC</a><span class="sub">Institucional</span></td><td>Reels</td><td>52</td><td>624</td><td>1.159</td><td>42</td><td>4</td><td>6</td><td>0</td><td>8,3%</td><td>62,4%</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/Dd39z3qFGMj/" target="_blank" rel="noopener">Trackers que entendem o céu</a><span class="sub">Inovação</span></td><td>Carrossel</td><td>36</td><td>393</td><td>886</td><td>33</td><td>0</td><td>3</td><td>1</td><td>9,2%</td><td>—</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/reel/Dd1jY46ToMx/" target="_blank" rel="noopener">73% das empresas no MLE</a><span class="sub">Educativo</span></td><td>Reels</td><td>34</td><td>279</td><td>518</td><td>30</td><td>0</td><td>4</td><td>0</td><td>12,2%</td><td>63,9%</td></tr>
+          <tr class="sum"><td>Top 12</td><td></td><td>906</td><td>10.042</td><td>17.152</td><td>710</td><td>91</td><td>105</td><td>23</td><td>9,0%</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="foot" data-edit>Os 12 posts concentram 86% das interações do mês (906 de 1.056). Os outros 11 criativos não vieram no export do Buzzmonitor (“Ver mais”). Evasão = parcela das pessoas que saiu do Reels antes do fim. “Carrossel” indica post de imagem; confirmar se foto única ou carrossel.</div>
+  </div>
+</section>
+
+<!-- 11 PODCAST -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Desempenho dos criativos · podcast</div>
+    <h1 data-edit>Cortes do podcast em setembro</h1>
+    <div class="grid g2">
+      <div class="card pendc"><div class="k">Cortes publicados no mês <span class="pend">identificar</span></div>
+        <p data-edit>O export do Buzzmonitor não marca quais Reels são cortes do podcast. O candidato no top 12 é “Se você ainda tem dúvidas sobre o MLE, esse vídeo é para você”: 58 interações, 915 contas alcançadas e 6,3% de engajamento, próximo dos 4% a 5% dos cortes de agosto. Confirmar com o time quais publicações do mês são cortes e as datas de publicação.</p></div>
+      <div class="card obs"><div class="k">Análises pontuais</div><p data-edit>[Preencher após a identificação dos cortes: taxa de engajamento de cada corte, comparação com julho e agosto, e quais temas sustentaram a performance.]</p></div>
+    </div>
+    <div class="foot">Referência de agosto: dois cortes em collab, com 50 e 64 interações, 1.066 e 1.688 de alcance e taxas de engajamento de 5% e 4%.</div>
+  </div>
+</section>
+
+<!-- 12 STORIES -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Stories mais relevantes · por visualização</div>
+    <h1 data-edit>Evento ao vivo foi o story mais visto do mês</h1>
+    <div class="kpis">
+      <div class="kpi"><div class="v">14</div><div class="l2">Stories publicados</div><div class="s2">0,5 por dia</div></div>
+      <div class="kpi b"><div class="v">4.076</div><div class="l2">Visualizações</div><div class="s2">pico de 1.416 em 24/09</div></div>
+      <div class="kpi b"><div class="v">3.257</div><div class="l2">Alcance</div><div class="s2">109 contas por dia</div></div>
+      <div class="kpi g"><div class="v">11</div><div class="l2">Interações</div><div class="s2">10 compartilhamentos · 1 resposta</div></div>
+    </div>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="card"><div class="k">01 · mais visto</div><div class="n" style="color:var(--blue)">1.093</div><h3>“Estamos no palco com nossa Head de Experiência do Cliente”</h3><p>741 contas alcançadas · 9 interações · 8 compartilhamentos · 1 resposta</p></div>
+      <div class="card"><div class="k">02</div><div class="n" style="color:var(--blue)">452</div><h3 data-edit>[Story sem legenda no export: identificar]</h3><p>361 contas alcançadas · 46 saídas · 9 toques para voltar</p></div>
+      <div class="card"><div class="k">03</div><div class="n" style="color:var(--blue)">311</div><h3 data-edit>[Story sem legenda no export: identificar]</h3><p>269 contas alcançadas · 54 saídas · 100% de conclusão</p></div>
+    </div>
+    <div class="card obs" style="margin-top:12px"><div class="k">Insights</div><p data-edit>Assim como em agosto, os stories de eventos e bastidores atraíram mais atenção: a participação da Head de Experiência do Cliente no palco teve quatro vezes mais visualizações que a média e concentrou quase todas as interações do canal. Fora dele, os stories quase não geram resposta: foi uma em todo o mês. O canal segue com espaço para ser usado como conversa, com enquetes e caixas de perguntas sobre o Mercado Livre, tema que já gera dúvidas nos comentários do feed.</p></div>
+    <div class="foot" data-edit>Toques para avançar, voltar e saídas por story disponíveis no export do Buzzmonitor. Os stories 02 e 03 vieram sem legenda; inserir o print ou o tema.</div>
+  </div>
+</section>
+
+<!-- 13 PÚBLICO -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Público</div>
+    <h1 data-edit>A base cresce no Nordeste, onde a Echo opera</h1>
+    <div class="grid g2">
+      <div class="card"><div class="k">Seguidores por cidade · top 10</div>
+        <div class="rows tight">
+          <div class="row"><div class="lbl">São Paulo, SP</div><span class="track"><span class="fill" data-w="100%" style="width:100%"></span></span><div class="val">801 · 0</div></div>
+          <div class="row"><div class="lbl">Belém, PA</div><span class="track"><span class="fill" data-w="62.7%" style="width:62.7%"></span></span><div class="val">502 · +2</div></div>
+          <div class="row"><div class="lbl">Maceió, AL</div><span class="track"><span class="fill" data-w="62.7%" style="width:62.7%"></span></span><div class="val">502 · 0</div></div>
+          <div class="row"><div class="lbl">São Luís, MA</div><span class="track"><span class="fill p" data-w="61.5%" style="width:61.5%"></span></span><div class="val">493 · +38</div></div>
+          <div class="row"><div class="lbl">Natal, RN</div><span class="track"><span class="fill" data-w="58.8%" style="width:58.8%"></span></span><div class="val">471 · 0</div></div>
+          <div class="row"><div class="lbl">Teresina, PI</div><span class="track"><span class="fill p" data-w="58.1%" style="width:58.1%"></span></span><div class="val">465 · +19</div></div>
+          <div class="row"><div class="lbl">Fortaleza, CE</div><span class="track"><span class="fill" data-w="50.4%" style="width:50.4%"></span></span><div class="val">404 · 0</div></div>
+          <div class="row"><div class="lbl">Goiânia, GO</div><span class="track"><span class="fill" data-w="34.8%" style="width:34.8%"></span></span><div class="val">279 · +3</div></div>
+          <div class="row"><div class="lbl">Mossoró, RN</div><span class="track"><span class="fill" data-w="34.3%" style="width:34.3%"></span></span><div class="val">275 · 0</div></div>
+          <div class="row"><div class="lbl">Rio de Janeiro, RJ</div><span class="track"><span class="fill" data-w="30.6%" style="width:30.6%"></span></span><div class="val">245 · +3</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="grid g2">
+          <div class="card"><div class="k">Maior crescimento</div><div class="n" style="color:var(--green)">+38</div><p>São Luís (MA), +8,4% no mês</p></div>
+          <div class="card"><div class="k">Segundo maior</div><div class="n" style="color:var(--green)">+19</div><p>Teresina (PI), +4,3% no mês</p></div>
+        </div>
+        <div class="card obs" style="margin-top:12px"><div class="k">Observações</div><p data-edit>São Luís e Teresina responderam por 57 dos novos seguidores do mês, e cidades do interior também cresceram: Lagoa Nova (RN, +9), Tianguá (CE, +7) e Barreiras (BA, +5). São Paulo segue como maior praça, sem crescimento em setembro. O avanço em capitais do Nordeste coincide com a área de atuação do Grupo Equatorial e indica que a mídia e as collabs estão chegando ao público regional certo.</p></div>
+        <div class="card pendc" style="margin-top:12px"><div class="k">Idade e gênero <span class="pend">aguardando dados</span></div><p>O export trouxe apenas o gráfico, sem os valores por faixa etária e gênero.</p></div>
+      </div>
+    </div>
+    <div class="foot">Total de seguidores por cidade e crescimento absoluto em setembro.</div>
+  </div>
+</section>
+
+<!-- 14 MÍDIA PAGA -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Mídia paga</div>
+    <h1 data-edit>R$ 9,2 mil em anúncios de conversão sobre a conta de energia</h1>
+    <div class="kpis">
+      <div class="kpi g"><div class="v">R$ 9.227,86</div><div class="l2">Investimento</div><div class="s2">R$ 307,60 por dia</div></div>
+      <div class="kpi b"><div class="v">129.325</div><div class="l2">Alcance patrocinado</div><div class="s2">R$ 71,35 por mil contas alcançadas</div></div>
+      <div class="kpi b"><div class="v">209.554</div><div class="l2">Visualizações</div><div class="s2">R$ 44,04 por mil visualizações</div></div>
+      <div class="kpi"><div class="v">24</div><div class="l2">Anúncios ativos</div><div class="s2">61 interações · 0,01% de engajamento</div></div>
+    </div>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="card"><div class="k">Copy A · 5 anúncios</div><h3 class="b">“Sua empresa pode estar pagando mais caro na conta de energia sem precisar”</h3><p>R$ 3.197,27 · 54.214 impressões · <strong>R$ 58,97</strong> por mil impressões</p></div>
+      <div class="card"><div class="k">Copy B · 5 anúncios</div><h3 class="b">“Empresas em todo o Brasil já estão reduzindo custos com energia sem trocar de fornecedor”</h3><p>R$ 665,54 · 16.298 impressões · <strong>R$ 40,84</strong> por mil impressões</p></div>
+      <div class="card"><div class="k">Copy C · 1 anúncio</div><h3 class="p">“Energia renovável com quem entrega resultado e faz diferença”</h3><p>R$ 255,58 · 35.583 impressões · <strong>R$ 7,18</strong> por mil impressões</p></div>
+    </div>
+    <div class="card obs" style="margin-top:12px"><div class="k">Observações</div><p data-edit>A mídia foi a principal responsável pela escala do mês. As campanhas falam de economia na conta de energia para empresas, um objetivo de geração de demanda: por isso o engajamento dos anúncios é quase nulo (61 interações) e não deve ser a métrica de avaliação. Entre os anúncios visíveis no export, a copy institucional “Energia renovável com quem entrega resultado” entregou impressões oito vezes mais baratas que a copy de economia que recebeu mais verba. Para dizer qual copy é mais eficiente, falta o resultado de cada campanha (cliques, leads ou conversões) no Gerenciador de Anúncios.</p></div>
+    <div class="foot">Valores dos 12 anúncios exibidos no export (R$ 4.300,99, 47% do investimento). Os outros 12 anúncios não vieram no PDF. Custos calculados sobre impressões de cada anúncio.</div>
+  </div>
+</section>
+
+<!-- 15 TABELA DE ANÚNCIOS -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Instagram · Mídia paga · anúncios</div>
+    <h1 style="font-size:clamp(24px,3vw,40px)">Os 12 anúncios com mais interações</h1>
+    <div class="tblwrap dense">
+      <table>
+        <thead><tr><th>Anúncio</th><th>Investido</th><th>Alcance</th><th>Impressões</th><th>Frequência</th><th>Custo por<br>mil impressões</th><th>Interações</th></tr></thead>
+        <tbody>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/Ddh8O8CM7Hs/" target="_blank" rel="noopener">Empresas reduzindo custos</a><span class="sub">Copy B</span></td><td class="inv">R$ 164,03</td><td>4.893</td><td>7.105</td><td>1,45</td><td>R$ 23,09</td><td>4</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DcwLASVMefg/" target="_blank" rel="noopener">Pagando mais caro na conta</a><span class="sub">Copy A</span></td><td class="inv">R$ 1.877,11</td><td>15.151</td><td>28.009</td><td>1,85</td><td>R$ 67,02</td><td>3</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DcwK1jYMSMA/" target="_blank" rel="noopener">Empresas reduzindo custos</a><span class="sub">Copy B</span></td><td class="inv">R$ 431,02</td><td>5.268</td><td>8.064</td><td>1,53</td><td>R$ 53,45</td><td>3</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DdmgDiYMvWT/" target="_blank" rel="noopener">Pagando mais caro na conta</a><span class="sub">Copy A</span></td><td class="inv">R$ 998,34</td><td>12.746</td><td>20.906</td><td>1,64</td><td>R$ 47,75</td><td>2</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/Ddh8O2Ysex_/" target="_blank" rel="noopener">Empresas reduzindo custos</a><span class="sub">Copy B</span></td><td class="inv">R$ 40,60</td><td>660</td><td>840</td><td>1,27</td><td>R$ 48,33</td><td>2</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DdmgEhJMIo5/" target="_blank" rel="noopener">Energia renovável que entrega</a><span class="sub">Copy C</span></td><td class="inv">R$ 255,58</td><td>15.165</td><td>35.583</td><td>2,35</td><td class="hl">R$ 7,18</td><td>1</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/Ddmf-pzMmPc/" target="_blank" rel="noopener">Pagando mais caro na conta</a><span class="sub">Copy A</span></td><td class="inv">R$ 223,61</td><td>2.478</td><td>4.170</td><td>1,68</td><td>R$ 53,62</td><td>1</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DcwLBM9My-R/" target="_blank" rel="noopener">Pagando mais caro na conta</a><span class="sub">Copy A</span></td><td class="inv">R$ 30,93</td><td>226</td><td>291</td><td>1,29</td><td class="lo">R$ 106,29</td><td>1</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DcwHrZFMnNT/" target="_blank" rel="noopener">Anúncio sem legenda</a><span class="sub">Identificar</span></td><td class="inv">R$ 182,60</td><td>2.880</td><td>4.252</td><td>1,48</td><td>R$ 42,94</td><td>0</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DcwK1mPsr07/" target="_blank" rel="noopener">Empresas reduzindo custos</a><span class="sub">Copy B</span></td><td class="inv">R$ 12,23</td><td>113</td><td>134</td><td>1,19</td><td class="lo">R$ 91,27</td><td>0</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DcwLA42Mn8h/" target="_blank" rel="noopener">Pagando mais caro na conta</a><span class="sub">Copy A</span></td><td class="inv">R$ 67,28</td><td>668</td><td>838</td><td>1,25</td><td class="lo">R$ 80,29</td><td>0</td></tr>
+          <tr><td class="nm"><a href="https://www.instagram.com/p/DdmgDs7s3HW/" target="_blank" rel="noopener">Empresas reduzindo custos</a><span class="sub">Copy B</span></td><td class="inv">R$ 17,66</td><td>135</td><td>155</td><td>1,15</td><td class="lo">R$ 113,94</td><td>0</td></tr>
+          <tr class="sum"><td>12 anúncios</td><td>R$ 4.300,99</td><td>60.383 *</td><td>110.347</td><td>—</td><td>R$ 38,98</td><td>17</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="foot" data-edit>* Soma dos alcances de cada anúncio; a mesma conta pode ter visto mais de um. Os links levam ao anúncio no Instagram. A associação entre linha e link segue a ordem do export do Buzzmonitor e deve ser conferida no Gerenciador de Anúncios.</div>
+  </div>
+</section>
+
+<!-- 16 DIVISOR OUTROS CANAIS -->
+<section class="slide divider">
+  <div class="wrap">
+    <div class="k">Capítulo 02 · Echoenergia</div>
+    <h1>Facebook e YouTube</h1>
+    <p class="lead" data-edit>Canais que hoje funcionam como espelho do Instagram: o Facebook recebe as mesmas publicações e o YouTube guarda o acervo de vídeos.</p>
+    <div class="dnums">
+      <div><div class="v">1.899</div><div class="l">Fãs no Facebook</div></div>
+      <div><div class="v">16</div><div class="l">Publicações no Facebook</div></div>
+      <div><div class="v">9.020</div><div class="l">Inscritos no YouTube</div></div>
+      <div><div class="v">0</div><div class="l">Vídeos novos no YouTube</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 FACEBOOK ORGÂNICO -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Facebook · Desempenho mensal</div>
+    <h1 data-edit>16 publicações e quatro reações orgânicas</h1>
+    <div class="kpis">
+      <div class="kpi"><div class="v">1.899</div><div class="l2">Fãs</div><div class="s2">+3 novos no mês</div></div>
+      <div class="kpi b"><div class="v">82.645</div><div class="l2">Alcance total da página</div><div class="s2">orgânico e pago · 2.755 por dia</div></div>
+      <div class="kpi"><div class="v">959</div><div class="l2">Visualizações orgânicas</div><div class="s2">32 por dia</div></div>
+      <div class="kpi r"><div class="v">4</div><div class="l2">Reações orgânicas</div><div class="s2">3 curtidas e 1 “amei” · engajamento de fãs 0%</div></div>
+    </div>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="card"><div class="k">Publicações por tipo</div>
+        <div class="rows tight">
+          <div class="row"><div class="lbl">Álbum</div><span class="track"><span class="fill" data-w="100%" style="width:100%"></span></span><div class="val" style="width:60px;flex-basis:60px">10</div></div>
+          <div class="row"><div class="lbl">Vídeo</div><span class="track"><span class="fill" data-w="50%" style="width:50%"></span></span><div class="val" style="width:60px;flex-basis:60px">5</div></div>
+          <div class="row"><div class="lbl">Foto</div><span class="track"><span class="fill" data-w="10%" style="width:10%"></span></span><div class="val" style="width:60px;flex-basis:60px">1</div></div>
+        </div>
+      </div>
+      <div class="card"><div class="k">“Falando sobre isso”</div><div class="n" style="color:var(--blue)">5.608</div><p>pessoas que interagiram com a página ou conteúdos sobre ela, inclusive anúncios · pico de 504 em 29/09</p></div>
+      <div class="card"><div class="k">Melhores posts orgânicos</div><p>#TBT ação com clientes: 5,6% de engajamento (18 contas) · Energia solar por assinatura: 2,6% (38) · Autoprodução: 3,3% (30)</p></div>
+    </div>
+    <div class="card obs" style="margin-top:12px"><div class="k">Observações</div><p data-edit>O Facebook recebe as mesmas peças do Instagram, mas o público orgânico quase não reage: as 16 publicações alcançaram poucas dezenas de pessoas cada e somaram quatro reações. A página só ganha escala quando há mídia, como mostram o alcance total de 82 mil e os 5.608 “falando sobre isso”, que incluem os anúncios. A recomendação é tratar o Facebook como canal de distribuição paga e de presença institucional, sem esforço de produção específico.</p></div>
+    <div class="foot">Desde 15/06/2026 a Meta não informa mais o alcance orgânico da página. O alcance total inclui o alcance pago.</div>
+  </div>
+</section>
+
+<!-- 18 FACEBOOK ADS E PÚBLICO -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Facebook · Anúncios e público</div>
+    <h1 data-edit>Menos anúncios novos e queda nas interações pagas</h1>
+    <div class="kpis">
+      <div class="kpi"><div class="v">3</div><div class="l2">Anúncios novos</div><div class="s2"><span class="dn">↓ 90,6%</span> · eram 32 em agosto</div></div>
+      <div class="kpi b"><div class="v">126.085</div><div class="l2">Visualizações em anúncios</div><div class="s2"><span class="dn">↓ 67,9%</span> · pico de 18.615 em 13/09</div></div>
+      <div class="kpi g"><div class="v">183</div><div class="l2">Interações em anúncios</div><div class="s2"><span class="dn">↓ 85,5%</span> · 151 reações, 98% curtidas</div></div>
+      <div class="kpi"><div class="v">0,32%</div><div class="l2">Engajamento médio</div><div class="s2">máximo de 2,22% em 23/09</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card"><div class="k">Fãs por cidade · top 8</div>
+        <div class="rows tight">
+          <div class="row"><div class="lbl">São Paulo, SP</div><span class="track"><span class="fill" data-w="100%" style="width:100%"></span></span><div class="val">161 · +3</div></div>
+          <div class="row"><div class="lbl">Fortaleza, CE</div><span class="track"><span class="fill" data-w="52.2%" style="width:52.2%"></span></span><div class="val">84 · +1</div></div>
+          <div class="row"><div class="lbl">Natal, RN</div><span class="track"><span class="fill" data-w="37.9%" style="width:37.9%"></span></span><div class="val">61 · 0</div></div>
+          <div class="row"><div class="lbl">Lagoa Nova, RN</div><span class="track"><span class="fill" data-w="25.5%" style="width:25.5%"></span></span><div class="val">41 · +1</div></div>
+          <div class="row"><div class="lbl">Serra do Mel, RN</div><span class="track"><span class="fill" data-w="23.6%" style="width:23.6%"></span></span><div class="val">38 · +1</div></div>
+          <div class="row"><div class="lbl">Mossoró, RN</div><span class="track"><span class="fill" data-w="23%" style="width:23%"></span></span><div class="val">37 · −1</div></div>
+          <div class="row"><div class="lbl">Caetés, PE</div><span class="track"><span class="fill" data-w="18%" style="width:18%"></span></span><div class="val">29 · −1</div></div>
+          <div class="row"><div class="lbl">Rio de Janeiro, RJ</div><span class="track"><span class="fill" data-w="18%" style="width:18%"></span></span><div class="val">29 · +2</div></div>
+        </div>
+      </div>
+      <div class="card obs"><div class="k">Observações</div><p data-edit>Em setembro a mídia se concentrou nos anúncios que rodam no Instagram, e o Facebook recebeu só três anúncios novos, contra 32 em agosto. As visualizações pagas caíram 68% e as interações, 85%. O anúncio de melhor resposta foi um Reels com 27 interações (23 reações, 1 comentário e 3 compartilhamentos). A base de fãs tem peso relevante em cidades do interior do Rio Grande do Norte, como Lagoa Nova e Serra do Mel, o que reforça o papel institucional da página junto às comunidades fora das capitais.</p></div>
+    </div>
+    <div class="foot">O investimento do Facebook aparece como R$ 0 no Buzzmonitor: os gastos da Meta estão registrados na visão de anúncios do Instagram. Comparativos com agosto calculados pelo próprio Buzzmonitor.</div>
+  </div>
+</section>
+
+<!-- 19 YOUTUBE -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">YouTube · Desempenho mensal</div>
+    <h1 data-edit>Canal parado, acervo ainda assistido</h1>
+    <div class="kpis">
+      <div class="kpi"><div class="v">9.020</div><div class="l2">Inscritos</div><div class="s2">valor arredondado pelo YouTube</div></div>
+      <div class="kpi r"><div class="v">0</div><div class="l2">Vídeos publicados</div><div class="s2">nenhuma publicação no mês</div></div>
+      <div class="kpi b"><div class="v">232</div><div class="l2">Visualizações no mês</div><div class="s2"><span class="up">↑ 56,8%</span> · pico de 36 em 17/09</div></div>
+      <div class="kpi"><div class="v">1,04 mi</div><div class="l2">Visualizações acumuladas</div><div class="s2">desde a criação do canal</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card"><div class="k">Engajamento de inscritos</div><div class="n">0,11%</div><p>média diária · máximo de 0,53% em 17/09 · <span class="dn">↓ 43,4%</span> no mês. O Buzzmonitor conta 241 interações, mas esse total inclui as 232 visualizações: curtidas e comentários somam cerca de 9.</p></div>
+      <div class="card obs"><div class="k">Observações</div><p data-edit>Sem vídeos novos em setembro, o YouTube da Echo vive do acervo: 232 visualizações em setembro, cerca de oito por dia. O canal tem 9 mil inscritos e mais de 1 milhão de visualizações acumuladas, uma base que hoje não recebe conteúdo. Os cortes do podcast e os vídeos educativos sobre Mercado Livre já produzidos para o Instagram podem ser publicados como Shorts com pouco esforço adicional.</p></div>
+    </div>
+    <div class="foot" data-edit>O Buzzmonitor indica variação de 4.800 inscritos no mês (160 por dia), número incompatível com um canal sem publicações e com o arredondamento que o YouTube aplica a canais acima de mil inscritos. O dado foi desconsiderado até ser conferido no YouTube Studio.</div>
+  </div>
+</section>
+
+<!-- 20 DIVISOR LINKEDIN -->
+<section class="slide divider">
+  <div class="wrap">
+    <div class="k">Capítulo 03 · Echoenergia</div>
+    <h1>LinkedIn</h1>
+    <p class="lead" data-edit>Perfil da Echoenergia e newsletter. <span class="pend">aguardando acesso ao LinkedIn no Buzzmonitor</span></p>
+    <div class="dnums">
+      <div><div class="v">82.234</div><div class="l">Seguidores em agosto</div></div>
+      <div><div class="v">912</div><div class="l">Interações em agosto</div></div>
+      <div><div class="v">28.442</div><div class="l">Assinantes da newsletter</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 21 LINKEDIN ECHO -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">LinkedIn · Echoenergia · Desempenho mensal</div>
+    <h1 data-edit>[Título da leitura do LinkedIn em setembro]</h1>
+    <div class="kpis">
+      <div class="kpi b"><div class="v na" data-edit>—</div><div class="l2">Alcance · visitantes únicos</div><div class="s2">agosto: 2.447</div></div>
+      <div class="kpi b"><div class="v na" data-edit>—</div><div class="l2">Visitas ao perfil</div><div class="s2">agosto: 2.447</div></div>
+      <div class="kpi g"><div class="v na" data-edit>—</div><div class="l2">Interações</div><div class="s2">agosto: 912 (maior do ano)</div></div>
+      <div class="kpi p"><div class="v na" data-edit>—</div><div class="l2">Novos seguidores</div><div class="s2">agosto: 528 · total de 82.234</div></div>
+    </div>
+    <div class="kpis" style="margin-top:12px">
+      <div class="kpi p"><div class="v na" data-edit>—</div><div class="l2">Taxa de retenção</div><div class="s2">agosto: 22%</div></div>
+      <div class="kpi"><div class="v na" data-edit>—</div><div class="l2">Número de criativos</div><div class="s2">agosto: 13</div></div>
+      <div class="kpi"><div class="v na" data-edit>—</div><div class="l2">Newsletter · visualizações</div><div class="s2">agosto: 8.987</div></div>
+      <div class="kpi"><div class="v na" data-edit>—</div><div class="l2">Newsletter · assinantes</div><div class="s2">agosto: 28.442 (+238)</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card pendc"><div class="k">Estrutura desta seção <span class="pend">aguardando dados</span></div>
+        <ul>
+          <li>Desempenho mensal e demonstrativo anual</li>
+          <li>Distribuição por formato e por editoria</li>
+          <li>Criativos mais relevantes por interações (visualizações únicas e taxa de engajamento)</li>
+          <li>Newsletter: visualizações, impressões, engajamento, assinantes e publicações</li>
+          <li>Perfil dos assinantes: geolocalização, cargos, senioridade e empresas</li>
+        </ul>
+      </div>
+      <div class="card obs"><div class="k">Observações</div><p data-edit>[Preencher quando os dados do LinkedIn estiverem disponíveis.]</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 22 ENOVA -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Enova Energia Solar · Visão geral</div>
+    <h1 data-edit>[Título da leitura da Enova em setembro]</h1>
+    <div class="kpis">
+      <div class="kpi b"><div class="v na" data-edit>—</div><div class="l2">Instagram · alcance</div><div class="s2">agosto: 1.096</div></div>
+      <div class="kpi b"><div class="v na" data-edit>—</div><div class="l2">Instagram · visitas ao perfil</div><div class="s2">agosto: 620</div></div>
+      <div class="kpi g"><div class="v na" data-edit>—</div><div class="l2">Instagram · interações</div><div class="s2">agosto: 221</div></div>
+      <div class="kpi p"><div class="v na" data-edit>—</div><div class="l2">Instagram · novos seguidores</div><div class="s2">agosto: −27 · total de 20.402</div></div>
+    </div>
+    <div class="kpis" style="margin-top:12px">
+      <div class="kpi p"><div class="v na" data-edit>—</div><div class="l2">Instagram · taxa de retenção</div><div class="s2">agosto: −4%</div></div>
+      <div class="kpi"><div class="v na" data-edit>—</div><div class="l2">Instagram · criativos</div><div class="s2">agosto: 7</div></div>
+      <div class="kpi b"><div class="v na" data-edit>—</div><div class="l2">LinkedIn · visitantes únicos</div><div class="s2">agosto: 64</div></div>
+      <div class="kpi p"><div class="v na" data-edit>—</div><div class="l2">LinkedIn · novos seguidores</div><div class="s2">agosto: 5 · total de 17.217</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card pendc"><div class="k">Estrutura desta seção <span class="pend">aguardando dados</span></div>
+        <ul>
+          <li>Instagram: mesmas telas da Echo (desempenho, orgânico x patrocinado, demonstrativo anual, editorias e formatos, criativos, stories)</li>
+          <li>LinkedIn: desempenho mensal, demonstrativo anual e retenção</li>
+          <li>Categorização de conteúdos e temas que mais engajaram</li>
+        </ul>
+      </div>
+      <div class="card obs"><div class="k">Observações</div><p data-edit>[Preencher quando os dados da Enova forem enviados.]</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 23 TÁ ROLANDO NA REDE + DEMANDAS -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Tá rolando na rede · Demandas</div>
+    <h1 data-edit>Menções à marca e produções do mês</h1>
+    <div class="grid g2">
+      <div class="card pendc"><div class="k">Menções à marca · Instagram <span class="pend">aguardando prints</span></div>
+        <p data-edit>[Inserir exemplos de menções à Echoenergia e à Enova nas redes sociais em setembro. Possível destaque: menções da participação no CONAREC.]</p></div>
+      <div class="card"><div class="k">Produções previstas</div>
+        <ul data-edit>
+          <li>[preencher]</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card"><div class="k">Produções feitas</div>
+        <ul data-edit>
+          <li>Cobertura do CONAREC (feed e stories)</li>
+          <li>Semana do Cliente</li>
+          <li>Série educativa sobre Mercado Livre de Energia</li>
+          <li>Divulgação do e-book sobre a conta de energia</li>
+          <li>[completar com o time]</li>
+        </ul>
+      </div>
+      <div class="card"><div class="k">Pendências</div>
+        <ul data-edit>
+          <li>Desdobramento da estratégia de TikTok (vindo de agosto)</li>
+          <li>Desdobramento dos brindes Mapa Mental (vindo de agosto)</li>
+          <li>Desdobramento da Gestão de Crise - PE (vindo de agosto)</li>
+          <li>Checklist de produções mensais (vindo de agosto)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot" data-edit>As produções feitas foram identificadas nas publicações do mês e devem ser confirmadas pelo time. As pendências repetem a lista de agosto até atualização.</div>
+  </div>
+</section>
+
+<!-- 24 DIVISOR APRENDIZADOS -->
+<section class="slide divider">
+  <div class="wrap">
+    <div class="k">Capítulo 04</div>
+    <h1>Aprendizados e plano de ação</h1>
+    <p class="lead" data-edit>O que setembro mostrou e o que muda em outubro.</p>
+  </div>
+</section>
+
+<!-- 25 APRENDIZADOS -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Aprendizados · Setembro 2026</div>
+    <h1 data-edit>O que os dados mostraram</h1>
+    <div class="grid g2">
+      <div class="card"><div class="k">Echoenergia</div>
+        <h3 class="b">Alcance e interações</h3>
+        <p data-edit><strong>Instagram:</strong> +120,5% no alcance com a retomada da mídia (R$ 9,2 mil) e −58% nas interações, porque os anúncios de conversão não geram engajamento.<br><strong>Facebook:</strong> 82,6 mil de alcance da página, mas apenas 4 reações orgânicas em 16 publicações.<br><strong>YouTube:</strong> nenhum vídeo novo; 232 visualizações do acervo.</p>
+        <h3 class="p" style="margin-top:14px">Crescimento de seguidores</h3>
+        <p data-edit><strong>Instagram:</strong> +94 novos seguidores, total de 16.120 e taxa de retenção de 7,4%.<br><strong>Facebook:</strong> +3 fãs, total de 1.899.<br><strong>LinkedIn:</strong> aguardando dados.</p>
+      </div>
+      <div class="card"><div class="k">Enova Energia Solar</div>
+        <h3 class="b">Alcance e interações</h3>
+        <p data-edit>[Preencher com os dados de setembro da Enova.]</p>
+        <h3 class="p" style="margin-top:14px">Crescimento de seguidores</h3>
+        <p data-edit>[Preencher com os dados de setembro da Enova.]</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px"><div class="k">Plano de ação · objetivos para outubro</div>
+      <ul data-edit>
+        <li><strong>Escalar a série sobre Mercado Livre de Energia:</strong> tema de 60% das interações do top 12. Manter Reels curtos com perguntas reais do público, como “minha empresa pode migrar?”.</li>
+        <li><strong>Colocar colaboradores nos conteúdos educativos:</strong> juntar o tema que mais engaja com a humanização, que já funciona nos conteúdos institucionais.</li>
+        <li><strong>Avaliar a mídia pelo resultado, não pelo engajamento:</strong> receber do time de mídia o objetivo e os cliques ou leads de cada campanha e rebalancear a verba entre as copies.</li>
+        <li><strong>Transformar os stories em conversa:</strong> enquetes e caixas de perguntas sobre o Mercado Livre, já que houve uma resposta em todo o mês.</li>
+        <li><strong>Reativar o YouTube com Shorts:</strong> publicar os cortes do podcast e os Reels educativos já produzidos.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 26 RESUMO -->
+<section class="slide">
+  <div class="wrap">
+    <div class="eyebrow">Resumo · Hipóteses e próximos passos</div>
+    <h1 data-edit>O que continuar, o que observar e o que testar</h1>
+    <div class="grid g3">
+      <div class="card"><div class="k">Validado ✔</div><h3 class="p">O que devemos continuar</h3>
+        <ul data-edit>
+          <li><strong>Conteúdo educativo sobre economia e Mercado Livre:</strong> os dois posts com mais interações do mês tratam do tema.</li>
+          <li><strong>Mídia para gerar entrada de público:</strong> com a verba de volta, visitas, seguidores e retenção subiram juntos.</li>
+          <li><strong>Humanização:</strong> o Reels da Experiência do Cliente e o story da Head no palco estão entre os destaques.</li>
+        </ul></div>
+      <div class="card"><div class="k">O que merece cuidado ⚠</div><h3 class="g">Pontos de atenção</h3>
+        <ul data-edit>
+          <li><strong>Dependência da mídia:</strong> cerca de 90% do alcance veio de anúncios. Sem verba, o alcance volta ao patamar de agosto.</li>
+          <li><strong>Interações não acompanham o alcance:</strong> a taxa de engajamento sobre o alcance total caiu para 0,8%.</li>
+          <li><strong>Facebook e YouTube sem tração:</strong> 4 reações orgânicas e nenhum vídeo novo.</li>
+        </ul></div>
+      <div class="card"><div class="k">Hipóteses</div><h3 class="b">O que devemos testar</h3>
+        <ul data-edit>
+          <li><strong>Copy institucional na mídia:</strong> “Energia renovável com quem entrega resultado” teve impressões oito vezes mais baratas; testar com orçamento próprio.</li>
+          <li><strong>Stories interativos sobre o Mercado Livre:</strong> foco em retenção e relacionamento.</li>
+          <li><strong>Formatos salváveis:</strong> guias e checklists sobre a conta de energia para aumentar salvamentos.</li>
+        </ul></div>
+    </div>
+    <div class="foot" data-edit>Hipóteses a validar em outubro. Os resultados indicam padrões de desempenho, não causalidade entre tema e resultado.</div>
+  </div>
+</section>
+
+<!-- 27 GLOSSÁRIO + FECHAMENTO -->
+<section class="slide final">
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--accent-deep);text-align:center">Echoenergia & Enova · Setembro 2026</div>
+    <h1>Obrigado</h1>
+    <div class="dnums" style="margin-bottom:30px">
+      <div><div class="v">128.062</div><div class="l">Alcance · Instagram</div></div>
+      <div><div class="v">+94</div><div class="l">Novos seguidores</div></div>
+      <div><div class="v">7,4%</div><div class="l">Taxa de retenção</div></div>
+      <div><div class="v">R$ 9.227,86</div><div class="l">Mídia paga</div></div>
+    </div>
+    <p class="lead" style="font-size:12.5px;text-align:left;max-width:980px"><strong style="color:#fff">Glossário.</strong> <strong style="color:#fff">Alcance:</strong> contas únicas que viram o conteúdo no período. <strong style="color:#fff">Impressões:</strong> total de vezes que o conteúdo foi exibido, com repetições. <strong style="color:#fff">Visualizações:</strong> vezes que o conteúdo foi assistido ou exibido, com repetições. <strong style="color:#fff">Visitas ao perfil:</strong> acessos ao perfil vindos de posts, anúncios, buscas ou compartilhamentos. <strong style="color:#fff">Novos seguidores:</strong> pessoas que passaram a seguir o perfil no período. <strong style="color:#fff">Taxa de retenção:</strong> novos seguidores ÷ visitas ao perfil × 100. <strong style="color:#fff">Interações:</strong> curtidas, comentários, compartilhamentos, salvamentos e respostas. <strong style="color:#fff">Taxa de engajamento:</strong> interações ÷ alcance × 100. <strong style="color:#fff">Alcance orgânico:</strong> contas alcançadas sem mídia paga. <strong style="color:#fff">Alcance pago:</strong> contas alcançadas por anúncios ou impulsionamentos. <strong style="color:#fff">Evasão:</strong> parcela das pessoas que saiu do Reels antes do fim.</p>
+    <div class="foot center">Relatório de desempenho · Dados do Buzzmonitor (Instagram, Facebook e YouTube), 01 a 30 de setembro de 2026 · Comparativos com o relatório de agosto/26 · Outubro de 2026</div>
+  </div>
+</section>
+</div>
+
+<div data-own class="bottombar">
+  <div class="tabs" id="tabs"></div>
+  <div class="arrows"><button id="prev" type="button" aria-label="Tela anterior">&#8592;</button><button id="next" type="button" aria-label="Próxima tela">&#8594;</button></div>
+</div>
+
+<script data-own>
+(function(){
+  /* Fonte canônica da página: capturada antes de qualquer alteração do script. Só nós com data-own. */
+  var SRC=[].slice.call(document.querySelectorAll('[data-own]')).filter(function(n){return n.parentNode===document.head||n.parentNode===document.body;}).map(function(n){return n.outerHTML;}).join('\n');
+  var RESET=':root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}';
+  var LS='echo-enova-2026-09-drafts';
+
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var N=slides.length, cur=0;
+  var SECTIONS=[['VISÃO GERAL',1],['INSTAGRAM',3],['FACEBOOK E YOUTUBE',16],['LINKEDIN',20],['ENOVA',22],['DEMANDAS',23],['PLANO',24]];
+  var tabs=document.getElementById('tabs');
+  SECTIONS.forEach(function(s){
+    var b=document.createElement('button'); b.className='tab'; b.type='button'; b.textContent=s[0];
+    b.onclick=function(){go(s[1]-1);}; tabs.appendChild(b);
+  });
+  function pad(n){return (n<10?'0':'')+n;}
+  function anim(sl){
+    sl.querySelectorAll('[data-w]').forEach(function(el){
+      var w=el.getAttribute('data-w'); el.style.transition='none'; el.style.width='0';
+      setTimeout(function(){el.style.transition='width .8s cubic-bezier(.22,1,.36,1)';el.style.width=w;},40);
+    });
+  }
+  function go(i){
+    if(i<0)i=0; if(i>N-1)i=N-1; cur=i;
+    slides.forEach(function(s,j){s.classList.toggle('on',j===i);});
+    slides[i].scrollTop=0;
+    document.getElementById('cnt').textContent=pad(i+1)+' / '+N;
+    document.getElementById('bar').style.width=((i+1)/N*100)+'%';
+    var act=0; SECTIONS.forEach(function(s,k){if(i+1>=s[1])act=k;});
+    [].slice.call(tabs.children).forEach(function(t,k){t.classList.toggle('on',k===act);});
+    try{history.replaceState(null,'','#'+(i+1));}catch(e){}
+    if(!document.body.classList.contains('editing')) anim(slides[i]);
+  }
+  document.getElementById('next').onclick=function(){go(cur+1);};
+  document.getElementById('prev').onclick=function(){go(cur-1);};
+  document.addEventListener('keydown',function(e){
+    var t=e.target; if(t&&(t.isContentEditable||t.tagName==='INPUT'))return;
+    if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();go(cur+1);}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1);}
+  });
+
+  /* ---------- demonstrativo anual ---------- */
+  var MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set'];
+  var metric=0;
+  function num(s){s=(s||'').replace(/\s/g,'').replace(/\./g,'').replace(',','.').replace('%','');var v=parseFloat(s);return isNaN(v)?null:v;}
+  function fmt(v,dec){return v.toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec});}
+  function series(){
+    var rows=[].slice.call(document.querySelectorAll('#tbl-ig tbody tr'));
+    var data=rows.slice(0,5).map(function(r){return [].slice.call(r.children).slice(1).map(function(td){return num(td.textContent);});});
+    var ret=MESES.map(function(_,k){var nf=data[3][k],vi=data[2][k];return (nf!=null&&vi)?nf/vi*100:null;});
+    data.push(ret);
+    var rr=rows[5].children; for(var k=0;k<MESES.length;k++){rr[k+1].textContent=ret[k]==null?'—':fmt(ret[k],1)+'%';}
+    return data;
+  }
+  function drawChart(){
+    var d=series()[metric], ch=document.getElementById('chart-ig'), max=0;
+    d.forEach(function(v){if(v!=null&&Math.abs(v)>max)max=Math.abs(v);});
+    var last=-1; d.forEach(function(v,k){if(v!=null)last=k;});
+    ch.innerHTML='';
+    d.forEach(function(v,k){
+      var c=document.createElement('div'); c.className='col';
+      var cv=document.createElement('div'); cv.className='cv'; cv.textContent=v==null?'—':(metric===5?fmt(v,1)+'%':fmt(v,0));
+      var cb=document.createElement('div'); cb.className='cb'+(v==null?' na':'')+(k===last?' cur':'');
+      if(v!=null)cb.style.height=Math.max(2,Math.abs(v)/(max||1)*130)+'px';
+      var cm=document.createElement('div'); cm.className='cm'; cm.textContent=MESES[k];
+      c.appendChild(cv); c.appendChild(cb); c.appendChild(cm); ch.appendChild(c);
+    });
+  }
+  [].slice.call(document.querySelectorAll('#mbtns .mbtn')).forEach(function(b){
+    b.onclick=function(){metric=+b.getAttribute('data-m');[].slice.call(document.querySelectorAll('#mbtns .mbtn')).forEach(function(x){x.classList.toggle('on',x===b);});drawChart();};
+  });
+  document.getElementById('tbl-ig').addEventListener('input',drawChart);
+
+  /* ---------- edição das defesas ---------- */
+  var editBtn=document.getElementById('editBtn'), saveBtn=document.getElementById('saveBtn'), msg=document.getElementById('msg');
+  var api=null, readOnly=false, dirty=false;
+  function editables(root){return [].slice.call(root.querySelectorAll('[data-edit]'));}
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function clean(node){
+    var out='';
+    node.childNodes.forEach(function(c){
+      if(c.nodeType===3){out+=esc(c.textContent);return;}
+      if(c.nodeType!==1)return;
+      var t=c.tagName, inner=clean(c);
+      if(t==='STRONG'||t==='B')out+='<strong>'+inner+'</strong>';
+      else if(t==='EM'||t==='I')out+='<em>'+inner+'</em>';
+      else if(t==='BR')out+='<br>';
+      else if(t==='LI')out+='<li>'+inner+'</li>';
+      else if(t==='SPAN'&&c.classList.contains('pend'))out+='<span class="pend">'+inner+'</span>';
+      else if(t==='DIV'||t==='P')out+=(out?'<br>':'')+inner;
+      else out+=inner;
+    });
+    return out;
+  }
+  function setEditing(on){
+    document.body.classList.toggle('editing',on);
+    editBtn.classList.toggle('on',on);
+    editBtn.textContent=on?'✓ Concluir edição':'✎ Editar defesas';
+    editables(document).forEach(function(el){if(on)el.setAttribute('contenteditable','true');else el.removeAttribute('contenteditable');});
+    saveBtn.hidden=!(on||dirty)||readOnly;
+    msg.textContent=on?'Clique nos textos com contorno para editar.':'';
+  }
+  editBtn.onclick=function(){setEditing(!document.body.classList.contains('editing'));};
+  document.addEventListener('input',function(e){
+    if(e.target.closest&&e.target.closest('[data-edit]')){dirty=true;saveBtn.hidden=readOnly;saveBtn.disabled=false;
+      if(!api){try{localStorage.setItem(LS,JSON.stringify(editables(document).map(function(el){return clean(el);})));}catch(_){}}}
+  });
+  function buildDoc(){
+    var doc=new DOMParser().parseFromString('<!doctype html><html><head></head><body>'+SRC+'</body></html>','text/html');
+    var live=editables(document), src=editables(doc);
+    if(live.length!==src.length)throw new Error('estrutura');
+    live.forEach(function(el,i){src[i].innerHTML=clean(el);if(src[i].classList.contains('na')&&el.textContent.trim()!=='—')src[i].classList.remove('na');});
+    return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>'+RESET+'</style></head><body>'+doc.body.innerHTML+'</body></html>';
+  }
+  saveBtn.onclick=function(){
+    if(!api){
+      try{localStorage.setItem(LS,JSON.stringify(editables(document).map(function(el){return clean(el);})));msg.textContent='Salvo neste navegador. Para salvar para todos, abra o relatório no claude.ai.';}
+      catch(_){msg.textContent='Não foi possível salvar aqui.';}
+      return;
+    }
+    var html; try{html=buildDoc();}catch(_){msg.textContent='Não foi possível montar a nova versão.';return;}
+    saveBtn.disabled=true; msg.textContent='Salvando nova versão…';
+    api.publish(html).then(function(){msg.textContent='Versão salva. Recarregando…';}).catch(function(err){
+      var c=err&&err.code;
+      if(c==='conflict'){msg.textContent='Outra pessoa salvou antes. A página vai recarregar com a versão mais nova.';}
+      else if(c==='not_writer'||c==='not_granted'||c==='not_declared'||c==='consent_required'||c==='capability_disabled'){readOnly=true;saveBtn.hidden=true;msg.textContent='Visualização somente leitura: as edições ficam só nesta tela.';}
+      else if(c==='rate_limited'){saveBtn.disabled=false;msg.textContent='Muitos salvamentos seguidos. Aguarde um pouco e tente de novo.';}
+      else{saveBtn.disabled=false;msg.textContent='Falha ao salvar. Tente novamente.';}
+    });
+  };
+  function applyLocalDrafts(){
+    try{var d=JSON.parse(localStorage.getItem(LS)||'null');var els=editables(document);
+      if(d&&d.length===els.length){els.forEach(function(el,i){el.innerHTML=d[i];});drawChart();}}catch(_){}
+  }
+  var tries=0;
+  (function connect(){
+    if(window.claude&&typeof window.claude.use==='function'){
+      window.claude.use('artifact').then(function(a){api=a;if(!a)applyLocalDrafts();}).catch(function(){applyLocalDrafts();});
+    } else if(++tries<15){ setTimeout(connect,200); } else { applyLocalDrafts(); }
+  })();
+
+  drawChart();
+  var h=parseInt((location.hash||'').replace(/[^0-9]/g,''),10);
+  go((h&&h>=1&&h<=N)?h-1:0);
+})();
+</script>
