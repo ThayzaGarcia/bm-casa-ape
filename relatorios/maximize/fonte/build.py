@@ -65,7 +65,10 @@ charts = {
                    'line': {'data': [5,6,5,19,50,33,20,8,19.8], 'color': BLK, 'suf': '%', 'diamond': True, 'below': False, 'scale': .45, 'fs': 12, 'bold': True},
                    'fv': 12, 'fx': 11, 'bw': 56, 'top': 24},
   'echoLiEdit': {'labels': ['institucional','educativo','ESG','timing/sazonal','mercado livre','newsletter'], 'bars': [bar([5,2,2,1,1,1])], 'fv': 12, 'fx': 10, 'bw': 40, 'top': 18},
-  'nlComp': {'labels': ['visualizações','impressões','engajamento'], 'bars': [bar([8987,4788,100], GRY, name='ago'), bar([813,1555,22], RED, name='set')], 'fv': 11, 'fx': 11, 'bw': 40, 'top': 20},
+  'nlVis': {'bars': [bar([7814,8638,9393,8433,8935,7026,9414,8987,813])], 'fv': 7.5, 'fx': 6.5, 'bw': 18, 'top': 14},
+  'nlPub': {'bars': [bar([2,2,2,2,2,2,2,2,1])], 'fv': 8, 'fx': 6.5, 'bw': 18, 'top': 14},
+  'nlImp': {'bars': [bar([3772,2722,2837,2957,3669,2325,3514,4788,1555])], 'fv': 7.5, 'fx': 6.5, 'bw': 18, 'top': 14},
+  'nlEng': {'bars': [bar([78,71,61,67,82,46,104,100,22])], 'fv': 8, 'fx': 6.5, 'bw': 18, 'top': 14},
 }
 data = {'meses': M, 'charts': charts}
 
