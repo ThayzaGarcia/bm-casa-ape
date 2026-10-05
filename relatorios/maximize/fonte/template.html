@@ -74,6 +74,11 @@ body.editing [data-edit]:focus{outline:2px solid var(--red)}
 .arr.u{color:var(--up)}.arr.d{color:var(--red)}.arr.e{color:var(--gray)}
 .lab{color:var(--red);font-size:13px;font-weight:500}
 .pend{display:inline-block;border:1.5px dashed var(--red);color:var(--red);background:var(--pink);border-radius:12px;padding:3px 12px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.trp{position:absolute;width:590px;height:510px;background:#fff;border-radius:18px;box-shadow:0 6px 22px rgba(0,0,0,.10);padding:14px 16px;box-sizing:border-box}
+.trh{font-size:12.5px;margin-bottom:10px;color:#333}.trh b{color:var(--red)}
+.trb{display:flex;gap:14px;height:450px}
+.trv{flex:0 0 253px;height:450px;border-radius:12px;background-size:cover;background-position:center}
+.trc{flex:1;display:flex;flex-direction:column;gap:8px;overflow:hidden}.trc img{width:100%;border-radius:8px;border:1px solid #eee}
 .pendbox{position:absolute;border:1.5px dashed var(--red);border-radius:18px;background:#fff8f9;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;color:var(--red);font-size:13px;font-weight:600;gap:6px}
 .pendbox span{color:#000;font-weight:400;font-size:12px}
 .na{color:#BDBDBD}
@@ -747,8 +752,22 @@ table.mini td.v{text-align:right;font-weight:600;font-variant-numeric:tabular-nu
   <div class="ttl"><h2>tá rolando nas redes</h2></div>
   <div class="sub" style="font-weight:400">exemplos de menções sobre a marca nas redes sociais</div>
   <div style="position:absolute;left:30px;top:140px;font-weight:600;font-size:14px">rede social: <span style="font-weight:400">Instagram</span></div>
-  <div class="pendbox anim d1" style="left:30px;top:180px;width:590px;height:470px">menção à marca 1<span data-edit>[inserir print de menção ou comentário sobre a Echoenergia ou a Enova em setembro. Sugestão: repercussão da participação no CONAREC]</span></div>
-  <div class="pendbox anim d2" style="left:660px;top:180px;width:590px;height:470px">menção à marca 2<span data-edit>[inserir print de menção ou comentário]</span></div>
+  <div class="trp anim d1" style="left:30px;top:172px">
+    <div class="trh"><b>Echoenergia</b> · Reels mercado livre · 25/09 · <span data-edit>Esther Muzel, analista comercial</span></div>
+    <div class="trb">
+      <div class="trv" style="background-image:url(%%IMG:tr1%%)"></div>
+      <div class="trc"><img src="%%IMG:tr2%%" alt="comentários no Reels"><img src="%%IMG:tr3%%" alt="comentários no Reels"></div>
+    </div>
+  </div>
+  <div class="trp anim d2" style="left:660px;top:172px">
+    <div class="trh"><b>Echoenergia</b> · Reels "Sua conta de energia aumentou?" · 18/09</div>
+    <div class="trb">
+      <div class="trv" style="background-image:url(%%IMG:tr4%%)"></div>
+      <div class="trc"><img src="%%IMG:tr5%%" alt="comentário no Reels">
+        <div class="obs small" data-edit style="margin-top:8px;font-size:12px">Os comentários dos dois Reels destacam a <b>clareza da explicação</b> e a <b>escolha das porta-vozes</b>. Colaboradores à frente da câmera aproximam a marca do público e dão credibilidade a temas técnicos, como a abertura do mercado livre de energia, editoria que passou de 0 para 5 publicações em setembro.</div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- 38 DIVISOR 05 -->

@@ -1,5 +1,5 @@
 import base64, json, re, pathlib
-S = pathlib.Path(__file__).resolve().parent  # template.html aqui; imagens em pdfs/emb/
+S = pathlib.Path(__file__).resolve().parent
 OUT = pathlib.Path('/home/user/bm-casa-ape/relatorios/maximize/echo-enova-setembro-2026.html')
 
 RED, DK, BLK, GRY, PINK, LGRY = '#EA2548', '#9A0000', '#000000', '#A6A6A6', '#D96B6B', '#6B6B6B'
