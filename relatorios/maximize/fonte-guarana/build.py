@@ -20,7 +20,8 @@ charts = {
               'line2': {'data': [N,1801,3890,4573,4015,5044,1120,3402,1623], 'color': DK},
               'line': {'data': igRet, 'color': BLK, 'suf': '%', 'diamond': True, 'below': False, 'scale': .25, 'fs': 11, 'bold': True},
               'fv': 9.5, 'fx': 8.5, 'bw': 34, 'top': 18},
-  'gjIgFmt': {'bars': [bar([3,0,5,1,4,5,2,4,N], RED), bar([1,3,1,3,0,1,3,1,N], BLK, pend=False), bar([2,1,3,2,3,2,2,4,N], DK, pend=False)], 'fv': 10, 'fx': 8, 'bw': 16, 'top': 18},
+  'gjIgFmt': {'bars': [bar([3,0,5,1,4,5,2,4,7], RED), bar([1,3,1,3,0,1,3,1,1], BLK), bar([2,1,3,2,3,2,2,4,3], DK)], 'fv': 10, 'fx': 8, 'bw': 16, 'top': 18},
+  'gjIgEdit': {'labels': ['collab com creator','sazonal (aniversário SL)','ação com o público','cultural/regional'], 'bars': [bar([4,5,1,1])], 'fv': 13, 'fx': 10, 'bw': 50, 'top': 20},
   # ---------- Investimento ----------
   'gjInv': {'labels': ['MAIO|26','JUN|26','JUL|26','AGO|26','SET|26'], 'pre': 'R$ ', 'bars': [bar([5591.12,14366.24,2960.21,3870.94,2977.04])], 'money': True, 'fv': 10, 'fx': 9, 'bw': 44, 'top': 20},
   'gjFoco': {'labels': ['MAIO|26','JUN|26','JUL|26','AGO|26','SET|26'], 'suf': '%', 'bars': [bar([11,27,27,6,37], RED, lc=RED), bar([89,73,73,94,63], DK, lc=DK)], 'fv': 10, 'fx': 9, 'bw': 22, 'top': 18},
