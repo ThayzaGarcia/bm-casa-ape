@@ -14,7 +14,7 @@ charts = {
   'gtIgInt': {'bars': [bar([6208,4012,6050,5746,33769,41424,15582,8369,1093])], 'fv': 9.5, 'fx': 8.5, 'bw': 30},
   'gtIgRet': {'line': {'data': igRet, 'color': BLK, 'suf': '%', 'fs': 12}, 'fx': 8.5, 'top': 14},
   'gtIgOrgPag': {'bars': [bar([3072,3532,N,5706,47295,114900,18306,17910,N], RED, lc=RED, pend=False),
-                          bar([179392,153091,27266,132375,385613,1291337,296800,341826,N], DK, lc=DK)], 'fv': 8.5, 'fx': 8.5, 'bw': 22, 'top': 22},
+                          bar([179392,153091,27266,132375,385613,1291337,296800,341826,50130], DK, lc=DK)], 'fv': 8.5, 'fx': 8.5, 'bw': 22, 'top': 22},
   'gtIgVis': {'bars': [bar([2503,3856,751,3366,12128,65553,5676,5271,1862], RED, lc=RED)],
               'line2': {'data': [N,227,107,453,1898,735,274,224,61], 'color': DK},
               'line': {'data': igRet, 'color': BLK, 'suf': '%', 'diamond': True, 'below': False, 'scale': .25, 'fs': 11, 'bold': True},
