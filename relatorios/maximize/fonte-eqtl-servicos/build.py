@@ -19,7 +19,7 @@ charts = {
             'fv': 11, 'fx': 10, 'bw': 44, 'top': 22},
   'eqFmt': {'bars': [bar([2,8,7,2,3,1,6,6,2], RED), bar([3,2,4,3,4,7,2,3,5], BLK), bar([4,4,2,6,3,2,0,3,3], DK)], 'fv': 10, 'fx': 8, 'bw': 16, 'top': 18},
   'eqEdit': {'labels': ['venda direta','engajamento (collab)','informativo','social'], 'bars': [bar([6,1,2,1])], 'fv': 13, 'fx': 10, 'bw': 50, 'top': 20},
-  'eqInv': {'bars': [bar([32578.45,35912.74,47848.18,47880.62,29573.69,40340.28,42483.80,45562.40,N])], 'money': True, 'fv': 8.5, 'fx': 9, 'bw': 40, 'top': 22},
+  'eqInv': {'bars': [bar([32578.45,35912.74,47848.18,47880.62,29573.69,40340.28,42483.80,45562.40,37616.11])], 'money': True, 'fv': 8.5, 'fx': 9, 'bw': 40, 'top': 22},
   'eqIdade': {'labels': ['18-24','25-34','35-44','45-54','55-64','65+'], 'suf': '%', 'bars': [bar([10,34.5,31,15,5.5,3])], 'fv': 11, 'fx': 10, 'bw': 36, 'top': 18},
   'eqGeo': {'labels': ['Teresina','São Luís','Belém','Maceió','Timon','Imperatriz'], 'suf': '%', 'bars': [bar([9.6,9.5,4.4,3.7,2.5,2.3])], 'fv': 11, 'fx': 9.5, 'bw': 34, 'top': 18},
   'eqGen': {'labels': ['feminino','masculino'], 'suf': '%', 'bars': [bar([65.6,34.4])], 'fv': 13, 'fx': 11, 'bw': 50, 'top': 18},
