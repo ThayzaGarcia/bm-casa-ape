@@ -55,12 +55,12 @@ for k,ms in C.items():
     paid=bool(re.search(r"comprovante|paguei|fiz o pix|pix feito|transferi|já paguei|ja paguei",it)) or bool(pi and any((not m["fm"]) and m["ty"] in("ImageMessage","DocumentMessage") for m in msn[pi[0]:]))
     src="Anúncio (Click-to-WhatsApp)" if any(m["ad"] for m in inb[:4]) else ("Link do Instagram (bio/direct)" if entry and entry["tx"].startswith("Olá, vim do instagram") else ("Link 'Quero agendar'" if entry and entry["tx"].startswith("Olá! Quero agendar") else ("Site" if entry else "Contato direto")))
     d=D(first["ts"])
-    LEADS.append(dict(month=d.strftime("%Y-%m"),src=src,wd=d.weekday(),h=d.hour,
+    LEADS.append(dict(k=k,month=d.strftime("%Y-%m"),src=src,wd=d.weekday(),h=d.hour,
         bh=(d.weekday()<5 and 8<=d.hour<18) or (d.weekday()==5 and 8<=d.hour<12),
         fr=(fr["ts"]-first["ts"])/60 if fr else None, fr_ok=first["ts"]+86400<min(END,GAP[0]) or (first["ts"]>GAP[1] and first["ts"]+86400<END),
         engaged=any((not m["fm"]) for m in msn if fr and m["ts"]>fr["ts"]),
         price=bool(re.search(r"valor|preço|preco|quanto (custa|fica|é|e|ta|tá)|investimento",it)),
-        price_text=bool(re.search(r"r\$ ?\d|1\.300|1\.400|1\.500|250,00|250 reais|\b250\b",ct)),
+        price_text=any(m["fm"] and re.search(r"r\$ ?\d|1\.300|1\.400|1\.500|\b250\b",m["tx"],re.I) and not re.search(r"pagamento antecipado|pix/cnpj|infinitepay|cashback",m["tx"],re.I) for m in msn),
         audio=sum(1 for m in msn if m["fm"] and m["ty"]=="AudioMessage"),
         slot=bool(re.search(r"consigo (um encaixe|às|as|dia|pra)|daria certo|fica confortável|manhã ou (à |a )?tarde",ct)),
         payreq=bool(pi),paid=paid,
@@ -98,6 +98,63 @@ M["procs"]=collections.Counter(p for l in LEADS for p in l["procs"]).most_common
 M["cities"]=collections.Counter(l["city"] for l in LEADS).most_common()
 M["objections"]=collections.Counter(o for l in LEADS for o in l["objections"]).most_common()
 M["leads_by_src_funnel"]={s:dict(n=sum(1 for l in LEADS if l["src"]==s),engaged=sum(1 for l in LEADS if l["src"]==s and l["engaged"]),slot=sum(1 for l in LEADS if l["src"]==s and l["slot"]),paid=sum(1 for l in LEADS if l["src"]==s and l["paid"])) for s,_ in M["leads_src"]}
+
+# ---- Roteiro de atendimento praticado: em que ordem e com que frequência cada etapa aparece nas conversas de lead
+STEPS=[("auto","Mensagem automática",lambda m: isauto(m)),
+("saud","Saudação pelo nome",lambda m: re.match(r"(Oie|Oiee|Olá)[^,]*, (bom dia|boa tarde|boa noite)",m["tx"])),
+("ajuda","“Como posso te ajudar?”",lambda m: "como posso te ajudar" in m["tx"].lower()),
+("proc","“Você já realizou algum procedimento?”",lambda m: re.search(r"já realizou algum procedimento",m["tx"],re.I)),
+("queixa","Pergunta a queixa",lambda m: re.search(r"queixa|o que (mais )?te incomoda|o que você gostaria de mudar",m["tx"],re.I)),
+("foto","Pede foto de frente e perfil",lambda m: re.search(r"foto (sua )?de frente|me mandar uma foto|foto.*perfil",m["tx"],re.I)),
+("cidade","Pergunta a cidade",lambda m: re.search(r"qual cidade|daqui mesmo de|você é de (maringá|vitória)",m["tx"],re.I)),
+("pedeaudio","“Posso te mandar um áudio?”",lambda m: re.search(r"posso te mandar um áudio|posso te explicar melhor|prefere por escrito",m["tx"],re.I)),
+("audio","Explica por áudio",lambda m: m["ty"]=="AudioMessage"),
+("arte","Envia imagem (arte da consulta / antes e depois)",lambda m: m["ty"] in("ImageMessage","AlbumMessage")),
+("consulta","Explica a consulta por texto",lambda m: re.search(r"a consulta é um momento|a dra precisa te avaliar|cada paciente tem uma necessidade",m["tx"],re.I)),
+("preco","Informa valor por escrito",lambda m: re.search(r"r\$ ?\d|1\.300|1\.400|1\.500|\b250\b",m["tx"],re.I) and not re.search(r"pagamento antecipado|pix/cnpj|infinitepay|cashback",m["tx"],re.I)),
+("periodo","“Manhã ou à tarde?”",lambda m: re.search(r"manhã ou (à |a )?tarde",m["tx"],re.I)),
+("horario","Oferece dia e horário",lambda m: re.search(r"consigo (um encaixe|às|as|dia|pra)|daria certo|fica confortável",m["tx"],re.I)),
+("sinal","Pede o sinal de R$ 250 / PIX",lambda m: re.search(r"pagamento antecipado|pix/cnpj|pay\.infinitepay",m["tx"],re.I)),
+("endereco","Envia endereço",lambda m: re.search(r"localizados na rua|fica localizado na rua",m["tx"],re.I)),
+("disp","“Qualquer coisa estamos à disposição”",lambda m: re.search(r"estamos à disposição|qualquer coisa estou aqui",m["tx"],re.I)),
+("follow","Mensagem de retomada",lambda m: m["ty"]=="TemplateMessage" or re.search(r"Às vezes a gente deixa|Só queria deixar esse lembrete|Tem algo aí dentro|Vamos agendar sua consulta",m["tx"])),
+]
+cnt=collections.Counter(); pos=collections.defaultdict(list); paid=collections.Counter()
+seqs=[]
+for l in LEADS:
+    ms=[m for m in C[l["k"]] if m["ty"]!="call"]
+    first=next(i for i,m in enumerate(ms) if not m["fm"])
+    seen={}
+    for i,m in enumerate(ms[first:]):
+        if not m["fm"]: continue
+        for key,_,f in STEPS:
+            if key not in seen and f(m): seen[key]=i
+    order=sorted(seen,key=seen.get)
+    seqs.append(tuple(k for k in order if k not in("auto","arte","audio","disp","follow")))
+    for k in seen:
+        cnt[k]+=1; pos[k].append(order.index(k)+1)
+        if l["paid"]: paid[k]+=1
+N=len(LEADS); P=sum(l["paid"] for l in LEADS)
+res=[]
+for key,name,_ in STEPS:
+    n=cnt[key]; res.append(dict(key=key,name=name,n=n,pct=round(100*n/N),pos=round(st.median(pos[key]),1) if pos[key] else None,paid_with=paid[key],conv_with=round(100*paid[key]/n) if n else 0,conv_without=round(100*(P-paid[key])/(N-n)) if N-n else 0))
+M["script_steps"]=res
+M["script_empty"]=sum(1 for s in seqs if not s)
+# ---- Roteiros escritos pela Dra. (grupo "COMO RESPONDER"): quantas vezes aparecem nas conversas individuais
+WRITTEN={"Tenho que pagar consulta?":["metas menores","sonhos e desejos"],"Se eu não fizer a manutenção, perco tudo?":["não perde tudo","perda gradual"],
+ "Vou ter que refazer sempre?":["estaca zero","manutenções pontuais"],"Ninguém cobra consulta":["De que forma pagar a consulta","100% de comparecimento"],
+ "Qual a média de valor?":["valor médio por mensagem","passo um valor mais alto"],"Como funciona o full face?":["Full Face, que é o procedimento","ácido hialurônico é um gel"],
+ "Moro em outra cidade":["teleconsulta, que é uma chamada","Para pacientes de outras cidades"],"Tenho medo de ficar artificial":["preza muito pela naturalidade"],
+ "Estou pesquisando outros profissionais":["o mais importante pra vc tomar","melhor resultado e o preço mais barato"],"Continuidade do tratamento":["como uma roupa"],
+ "Qual o valor do ml?":["o que esse ml vai fazer","valor do ml ou o resultado"],"Está caro":["caro comparado","1 ml a menos"]}
+M["written_scripts"]=[]
+for name,ps in WRITTEN.items():
+    q=" or ".join("text like ?" for _ in ps)
+    M["written_scripts"].append((name,db.execute(f"select count(*) from messages where from_me=1 and is_group=0 and ({q})",["%"+x+"%" for x in ps]).fetchone()[0]))
+tp=db.execute("select chatid,ts from messages where from_me=1 and type='TemplateMessage'").fetchall()
+M["followup_auto"]=dict(sent=len(tp),chats=len(set(c for c,_ in tp)),answered48h=sum(1 for c,t in tp if db.execute("select 1 from messages where chatid=? and from_me=0 and ts>? and ts<?",(c,t,t+2*86400000)).fetchone()),
+  first=min((t for _,t in tp),default=0))
+M["auto_overlap_chats"]=db.execute("select count(distinct a.chatid) from messages a join messages b on a.chatid=b.chatid where a.text like 'Oieee, sua mensagem já chegou%' and b.text like 'Oieee, tudo bem? ✨%' and abs(a.ts-b.ts)<120000").fetchone()[0]
 json.dump(M,open(os.path.join(BASE,"metrics.json"),"w"),ensure_ascii=False,indent=1)
 for k,v in M.items():
     if k not in("heat","types"): print(k,":",v)

@@ -76,6 +76,11 @@ F=M["funnel"]; lb=M["lead_first_resp_bh"]; lo=M["lead_first_resp_off"]; nr=M["le
 src=M["leads_by_src_funnel"]
 srcrows="".join(f'<tr><td>{html.escape(k)}</td><td class="n">{v["n"]}</td><td class="n">{v["engaged"]}</td><td class="n">{v["slot"]}</td><td class="n">{v["paid"]}</td></tr>' for k,v in src.items())
 
+SS={r["key"]:r for r in M["script_steps"]}
+st=lambda k: SS[k]["pct"]
+FA=M["followup_auto"]
+cmp_rows="".join(f'<tr><td>{SS[k]["name"]}</td><td class="n">{SS[k]["n"]}</td><td class="n hi">{SS[k]["conv_with"]}%</td><td class="n">{SS[k]["conv_without"]}%</td></tr>' for k in ("periodo","horario","preco"))
+ws_rows=hbars(M["written_scripts"],maxv=max(5,max(n for _,n in M["written_scripts"])))
 doc=f'''<title>Raio-X WhatsApp Nader Beauty</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,6 +138,22 @@ blockquote small{{display:block;color:var(--ink2);font-size:.8rem;margin-top:4px
 .phase ol{{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:8px}}
 ul.plain{{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:8px}}
 .small{{font-size:.88rem;color:var(--ink2)}}
+.steps{{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;counter-reset:st}}
+.step{{display:grid;grid-template-columns:2.2rem 1fr;gap:14px;padding-block:14px;border-top:1px solid var(--line)}}
+.step:first-child{{border-top:0}}
+.step .num{{font-family:var(--display);font-size:1.4rem;color:var(--accent);line-height:1}}
+.step .body{{display:flex;flex-direction:column;gap:8px;min-width:0}}
+.step .head{{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;align-items:baseline}}
+.step .head b{{font-size:1rem}}
+.use{{font-family:var(--mono);font-size:.8rem;color:var(--ink2);font-variant-numeric:tabular-nums}}
+.use.low{{color:var(--crit)}}
+.msg{{background:var(--accent-soft);border-radius:4px 12px 12px 12px;padding:8px 12px;font-size:.88rem;white-space:pre-line;max-width:52ch}}
+.msg.auto{{background:var(--gapfill)}}
+.compare td.hi{{color:var(--good);font-weight:600}}
+.recipe{{counter-reset:r;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}}
+.recipe li{{display:flex;flex-direction:column;gap:6px}}
+.recipe li>b{{font-size:.95rem}}
+
 code{{font-family:var(--mono);font-size:.85em;background:var(--gapfill);padding:1px 5px;border-radius:4px}}
 </style>
 <div class="wrap">
@@ -159,7 +180,7 @@ code{{font-family:var(--mono);font-size:.85em;background:var(--gapfill);padding:
   <li><span class="tag t-crit">Crítico</span><div><b>A conversa para antes do agendamento.</b> 76% dos leads respondem à secretária, mas só 21% recebem uma proposta concreta de dia e horário. E é justamente essa etapa que decide a venda: 40% de quem recebe horário paga o sinal, contra 5% de quem não recebe.</div></li>
   <li><span class="tag t-crit">Crítico</span><div><b>Lead pago sem resposta.</b> 8 de 33 conversas vindas de anúncio (24%) nunca receberam uma mensagem humana, e das que vieram de anúncio só 1 recebeu proposta de horário. Nenhuma chegou ao sinal pago.</div></li>
   <li><span class="tag t-warn">Atenção</span><div><b>40% dos leads chegam fora do horário</b> e esperam em média 12 horas pela primeira resposta. No total, {nr["none"]} de {nr["n"]} leads ({100*nr["none"]/nr["n"]:.0f}%) ficaram mais de 24h sem resposta humana.</div></li>
-  <li><span class="tag t-warn">Atenção</span><div><b>O preço vai em áudio.</b> 103 leads perguntaram valor; 67 receberam a explicação em áudio e só 34 receberam algum valor por escrito. Quem pergunta no trabalho ou no ônibus não ouve, e some.</div></li>
+  <li><span class="tag t-warn">Atenção</span><div><b>O preço vai em áudio.</b> 103 leads perguntaram valor; {M["price_askers"]["got_audio"]} receberam a explicação em áudio e só {M["price_askers"]["got_text_price"]} receberam algum valor por escrito. Quem pergunta no trabalho ou no ônibus não ouve, e some.</div></li>
   <li><span class="tag t-warn">Atenção</span><div><b>71% das conversas de lead terminam com a clínica falando sozinha</b> e só 11% receberam alguma mensagem de retomada. Não há rotina de follow-up.</div></li>
   <li><span class="tag t-good">Funciona</span><div><b>Em horário comercial, a resposta é rápida:</b> mediana de {lb["med"]:.1f} min para o 1º contato e 92% respondidos em até 1 hora. O roteiro de qualificação (procedimento anterior → queixa → cidade → manhã ou tarde) é bom quando é seguido até o fim.</div></li>
  </ul>
@@ -206,6 +227,76 @@ code{{font-family:var(--mono);font-size:.85em;background:var(--gapfill);padding:
 
 </section>
 
+<section id="roteiro">
+ <div class="eyebrow">Roteiro de atendimento</div>
+ <h2>Existe um roteiro, mas ele raramente vai até o fim</h2>
+ <p>Encontrei dois roteiros. O primeiro é o que a equipe pratica: uma sequência de mensagens que se repete nas conversas, muitas vezes com o mesmo texto. O segundo foi escrito pela Dra. no grupo interno "COMO RESPONDER", com respostas para dúvidas e objeções. A porcentagem ao lado de cada etapa mostra em quantas das {F["leads"]} conversas de lead ela aparece.</p>
+ <div class="fig">
+  <h3>O roteiro praticado, na ordem em que aparece</h3>
+  <ol class="steps">
+   <li class="step"><div class="num">1</div><div class="body"><div class="head"><b>Mensagem automática de entrada</b><span class="use">{st("auto")}% das leads</span></div>
+    <div class="msg auto">Oieee, tudo bem? ✨
+Aqui é Mai, faço parte da equipe da Nader Beauty!
+Poderia me falar seu nome completo por gentileza?</div>
+    <p class="small">Usada de out/25 a jul/26, junto com "Oieee, sua mensagem já chegou aqui!". Em out/26 foi trocada por "Olá!! É um prazer ter você aqui…" seguida de um menu com três botões: <i>Já sou cliente</i>, <i>Quero agendar</i> e <i>Tirar dúvidas</i>.</p></div></li>
+   <li class="step"><div class="num">2</div><div class="body"><div class="head"><b>Saudação pelo nome</b><span class="use">{st("saud")}%</span></div>
+    <div class="msg">Oie [nome], bom dia! Tudo bem? 🤍</div></div></li>
+   <li class="step"><div class="num">3</div><div class="body"><div class="head"><b>Qualificação</b><span class="use low">{st("proc")}% · {st("cidade")}% · {st("queixa")}%</span></div>
+    <div class="msg">Você já realizou algum procedimento estético?</div>
+    <div class="msg">Você é de qual cidade, amor?</div>
+    <div class="msg">Qual seria sua queixa? O que mais te incomoda?</div>
+    <p class="small">As três perguntas são boas, mas aparecem em poucas conversas. Em {st("ajuda")}% das conversas a secretária pergunta "Como posso te ajudar?", mesmo quando a lead já escreveu "quero agendar".</p></div></li>
+   <li class="step"><div class="num">4</div><div class="body"><div class="head"><b>Explicação da consulta, em áudio</b><span class="use">áudio em {st("audio")}% · imagem em {st("arte")}%</span></div>
+    <div class="msg">Posso te mandar um áudio explicando melhor sobre nossa consulta?</div>
+    <p class="small">Em seguida vão um áudio de 20 a 40 segundos e uma imagem com as informações da consulta. A versão por escrito ("A consulta é um momento mais importante de todo o planejamento…") só aparece em {st("consulta")}% das conversas, e algum valor por escrito em {st("preco")}%.</p></div></li>
+   <li class="step"><div class="num">5</div><div class="body"><div class="head"><b>Fechamento: período e horário</b><span class="use low">{st("periodo")}% · {st("horario")}%</span></div>
+    <div class="msg">Me conta, pra você ficaria mais confortável no período da manhã ou à tarde?</div>
+    <div class="msg">Consigo um encaixe pra você segunda-feira dia 15 às 10:00 horas, daria certo?</div>
+    <p class="small">É a etapa que mais converte e uma das que menos aparecem.</p></div></li>
+   <li class="step"><div class="num">6</div><div class="body"><div class="head"><b>Sinal de R$ 250 e PIX</b><span class="use">{st("sinal")}%</span></div>
+    <div class="msg">Para conseguirmos reservar seu horário de agendamento, nós estamos pedindo o pagamento antecipado dos R$ 250,00 reais, tudo bem?
+A forma de pagamento pode ser pix ou link, qual seria a melhor opção para você?
+Como reservamos um horário especialmente para você esse valor não poderá ser devolvido caso não consiga comparecer.
+Poderemos remarcar mais uma única vez seu horário.</div>
+    <p class="small">Logo depois vão o PIX/CNPJ da Nader Beauty e o pedido de comprovante. A consulta não é descontada do procedimento.</p></div></li>
+   <li class="step"><div class="num">7</div><div class="body"><div class="head"><b>Endereço</b><span class="use">{st("endereco")}%</span></div>
+    <div class="msg">Nós estamos localizados na rua Arthur Seixas, no edifício Candeias Prime Green… Se vier de uber, põe na localização: arte fina papelaria que é aqui ao lado. ✨</div></div></li>
+   <li class="step"><div class="num">8</div><div class="body"><div class="head"><b>Retomada de quem parou de responder</b><span class="use low">{st("follow")}%</span></div>
+    <div class="msg auto">Oi! [nome], passando só pra dizer que estamos por aqui, viu? Se quiser continuar nossa conversa ou tirar dúvidas, vai ser um prazer te ajudar 💬</div>
+    <p class="small">Até julho não havia retomada. A partir de 07/10 entraram quatro mensagens automáticas desse tipo: {FA["sent"]} envios para {FA["chats"]} conversas, com {FA["answered48h"]} respostas em até 48 horas. Por serem genéricas, quase ninguém responde.</p></div></li>
+  </ol>
+  <p class="cap">{M["script_empty"]} conversas de lead ({100*M["script_empty"]//F["leads"]}%) não passaram por nenhuma etapa escrita além da automação, de áudios e de imagens.</p>
+ </div>
+ <div class="fig">
+  <h3>As etapas de fechamento acompanham o pagamento do sinal</h3>
+  <div class="scroll"><table class="compare"><thead><tr><th>Etapa</th><th class="n">Leads com a etapa</th><th class="n">Sinal pago, com a etapa</th><th class="n">Sinal pago, sem a etapa</th></tr></thead><tbody>{cmp_rows}</tbody></table></div>
+  <p class="cap">Essas etapas costumam aparecer em conversas que já estavam avançando, então a diferença não é toda efeito do roteiro. Mas mostra o caminho: quem recebe período e horário paga o sinal muito mais.</p>
+ </div>
+ <div class="fig">
+  <h3>O roteiro escrito pela Dra. (grupo "COMO RESPONDER")</h3>
+  <p class="small">Respostas prontas para {len(M["written_scripts"])} situações, escritas entre fev e jul/26. Ao lado, quantas vezes cada uma aparece por escrito nas conversas com pacientes e leads.</p>
+  <div style="display:flex;flex-direction:column;gap:8px">{ws_rows}</div>
+  <p class="cap">Em maio a Dra. perguntou no grupo "Mai, vc está usando essas msgs?", e a resposta foi "As de cima sim". O uso em áudio não aparece aqui.</p>
+ </div>
+ <div class="fig">
+  <h3>Roteiro recomendado</h3>
+  <p class="small">Junta o que já funciona no roteiro praticado com as respostas da Dra. Cada passo tem um texto pronto para virar resposta rápida do WhatsApp Business.</p>
+  <ol class="recipe">
+   <li><b>1. Entrada (automática).</b><div class="msg auto">Oi! Aqui é a Mai, da equipe da Dra. Carol Nader 🤍 Pra eu te ajudar mais rápido, escolhe uma opção:
+[Quero agendar] [Já sou paciente] [Tirar dúvidas]</div></li>
+   <li><b>2. Qualificação em duas perguntas.</b><div class="msg">Que bom te ver aqui, [nome]! Você já fez algum procedimento estético? E é de Conquista ou de outra cidade?</div></li>
+   <li><b>3. Consulta explicada por escrito, áudio como opção.</b><div class="msg">A consulta com a Dra. é o momento em que ela entende o que te incomoda e monta seu plano dentro do que você pode investir hoje. O valor é R$ 250 e ela atende presencial ou on-line. Quer que eu te explique melhor por áudio também?</div></li>
+   <li><b>4. Se pedirem valor do procedimento:</b> usar a resposta da Dra. para "Qual a média de valor?" e passar a referência da tabela única, sempre com a mesma faixa para toda a equipe.</li>
+   <li><b>5. Fechamento na mesma mensagem.</b><div class="msg">Tenho [dia] às [hora] ou [dia] às [hora]. Qual fica melhor pra você?</div></li>
+   <li><b>6. Sinal, PIX e endereço.</b> Manter os textos atuais. Eles são claros e explicam a regra de remarcação.</li>
+   <li><b>7. Objeções.</b> Usar as respostas da Dra. como atalhos ("Está caro", "Estou pesquisando outros profissionais", "Moro em outra cidade", "Tenho medo de ficar artificial"), sempre terminando com uma proposta de horário.</li>
+   <li><b>8. Retomada que cita a conversa.</b><div class="msg">D+1: [nome], fiquei pensando no que você me contou sobre [queixa]. Consegui um horário na [dia] às [hora], quer que eu reserve?
+D+3: Separei um resultado de [procedimento] parecido com o que você quer. Posso te mandar?
+D+7: Vou liberar os horários desta semana. Se quiser, ainda consigo [dia] às [hora] pra você.</div></li>
+  </ol>
+ </div>
+</section>
+
 <section>
  <div class="eyebrow">Velocidade</div>
  <h2>Tempo de resposta</h2>
@@ -244,16 +335,16 @@ code{{font-family:var(--mono);font-size:.85em;background:var(--gapfill);padding:
  <h2>Achados do atendimento</h2>
  <h3>O que já funciona</h3>
  <ul class="plain">
-  <li>Roteiro de qualificação consistente: "Você já realizou algum procedimento estético?" (41 vezes), "Você é de qual cidade?" (27), "manhã ou à tarde?" (48).</li>
+  <li>Boas perguntas de qualificação: "Você já realizou algum procedimento estético?", "Você é de qual cidade?" e "manhã ou à tarde?". O problema é a frequência de uso, detalhada na seção de roteiro.</li>
   <li>Prova social com fotos de antes e depois e explicações didáticas (full face, olheiras, papada).</li>
   <li>Pós-procedimento ativo: mensagens de "como você está?" e orientação sobre inchaço.</li>
   <li>Ações de relacionamento: cashback de aniversário e pedido de avaliação no Google. As duas pararam (a última em dez/25 e abr/26).</li>
  </ul>
  <h3>O que trava</h3>
  <ul class="plain">
-  <li><b>Três mensagens automáticas se sobrepõem</b> ("sua mensagem já chegou", "aqui é Mai… qual seu nome completo?" e "uma de nossas consultoras dará continuidade"). A saudação dispara também para pacientes antigas, que recebem o pedido de nome completo.</li>
+  <li><b>Até julho, duas mensagens automáticas disparavam juntas</b> ("sua mensagem já chegou" e "aqui é Mai… qual seu nome completo?"), em {M["auto_overlap_chats"]} conversas. A segunda chegava também para pacientes antigas. Em outubro entrou um menu com botões no lugar, o que resolve a duplicidade.</li>
   <li><b>Preço sem padrão.</b> Para a mesma pergunta, uma lead recebe "1 ml fica R$ 1.300 à vista ou R$ 1.400 em 4x", outra recebe "valores só na consulta" e outra "o ml fica em média R$ 1.500". A lead percebe a diferença.</li>
-  <li><b>Os roteiros da Dra. não chegaram ao atendimento.</b> O grupo "COMO RESPONDER" tem respostas para objeções ("caro comparado a quê?", "vou pesquisar com outros profissionais", "medo de ficar artificial"). Nas conversas com leads, essas respostas aparecem 1 vez em um ano.</li>
+  <li><b>Os roteiros da Dra. não chegaram ao atendimento.</b> O grupo "COMO RESPONDER" tem respostas para objeções ("caro comparado a quê?", "vou pesquisar com outros profissionais", "medo de ficar artificial"). Por escrito, {sum(1 for _,n in M["written_scripts"] if n)} dos {len(M["written_scripts"])} roteiros aparecem nas conversas, {sum(n for _,n in M["written_scripts"])} vezes no total. A secretária disse no grupo que usa alguns, provavelmente em áudio.</li>
   <li><b>Muito áudio:</b> {fmt(M["audio_out"][0])} áudios enviados ({M["audio_out"][1]/3600:.1f} horas). O áudio cria proximidade, mas não pode ser lido, buscado ou padronizado, e esconde a informação que a lead pediu.</li>
   <li><b>Etiquetas pouco usadas:</b> 47 de {fmt(M["chats_total"])} conversas têm etiqueta, e "Aguardando pagamento" tem só 2. Não há como saber, pelo WhatsApp, quem está em que etapa.</li>
  </ul>
@@ -264,13 +355,13 @@ code{{font-family:var(--mono);font-size:.85em;background:var(--gapfill);padding:
  <h2>Prioridades</h2>
  <div class="plan">
   <div class="phase"><div>Esta semana</div><ol>
-   <li>Responder hoje toda lead sem retorno humano (lista no banco de dados, consulta pronta).</li>
-   <li>Trocar as três automações por uma só: saudação curta + pergunta de qualificação, sem pedir nome completo para quem já é paciente.</li>
+   <li>Responder hoje toda lead sem retorno humano (etapa "1. Sem resposta humana" na planilha de leads).</li>
+   <li>Manter só o menu de outubro como automação de entrada, sem pedir nome completo para quem já é paciente.</li>
    <li>Regra de ouro: toda resposta a "quero agendar" ou "qual o valor" termina com dois horários concretos.</li>
   </ol></div>
   <div class="phase"><div>30 dias</div><ol>
-   <li>Tabela de preços de referência por escrito, igual para toda a equipe (consulta R$ 250 abatível, ml, toxina, papada parcelada). O áudio vem depois, como complemento.</li>
-   <li>Cadência de follow-up: D+1, D+3 e D+7 para toda lead que parou de responder, com mensagens diferentes (dúvida, prova social, horário).</li>
+   <li>Tabela de preços de referência por escrito, igual para toda a equipe (consulta R$ 250, que não é descontada do procedimento; ml; toxina; papada parcelada). O áudio vem depois, como complemento.</li>
+   <li>Trocar a retomada automática genérica por uma cadência D+1, D+3 e D+7 que cite o que a lead pediu e ofereça horário.</li>
    <li>Levar as respostas do "COMO RESPONDER" para respostas rápidas do WhatsApp Business, com atalho, e revisar semanalmente o uso.</li>
    <li>Etiquetas obrigatórias por etapa: Lead novo → Qualificado → Horário proposto → Aguardando sinal → Agendado → Paciente.</li>
   </ol></div>
