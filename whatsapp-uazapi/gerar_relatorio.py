@@ -41,7 +41,7 @@ def leadsmonth():
             s.append(f'<rect x="{x:.1f}" y="{pt}" width="{w:.1f}" height="{H-pt-pb}" class="gapbox"><title>sem histórico</title></rect>')
         else:
             v=d.get(m,0); h=(H-pt-pb)*v/mx; y=H-pb-h
-            s.append(f'<path d="M{x:.1f},{H-pb} v{-(h-4):.1f} q0,-4 4,-4 h{w-8:.1f} q4,0 4,4 v{h-4:.1f} z" class="bar{" bar-hi" if m=="2026-10" else ""}"><title>{lab(m)}: {v} leads{" (só 1 a 14/10)" if m=="2026-10" else ""}</title></path>')
+            s.append(f'<path d="M{x:.1f},{H-pb} v{-(h-4):.1f} q0,-4 4,-4 h{w-8:.1f} q4,0 4,4 v{h-4:.1f} z" class="bar{" bar-hi" if m=="2026-10" else ""}"><title>{lab(m)}: {v} leads{" (só 7 a 14/10)" if m=="2026-10" else ""}</title></path>')
             s.append(f'<text x="{x+w/2:.1f}" y="{y-6:.1f}" class="vl" text-anchor="middle">{v}</text>')
         s.append(f'<text x="{x+w/2:.1f}" y="{H-pb+16}" class="ax" text-anchor="middle">{lab(m)}</text>')
     return f'<svg viewBox="0 0 {W} {H}" role="img" aria-label="Novos leads por mês">{"".join(s)}</svg>'
@@ -172,7 +172,7 @@ code{{font-family:var(--mono);font-size:.85em;background:var(--gapfill);padding:
  <div class="fig">
   <h3>Mensagens por mês em conversas individuais</h3>
   {monthly()}
-  <p class="cap">Agosto e setembro de 2026 não vieram no histórico: de 17/07 a 01/10 a instância só tem registros de ligação. É uma lacuna da sincronização do WhatsApp, não queda de movimento. Janeiro baixo coincide com o afastamento da Dra. (retorno em fevereiro). Outubro/26 cobre só 14 dias.</p>
+  <p class="cap">Agosto e setembro de 2026 não vieram no histórico: de 17/07 a 06/10 a instância só tem registros de ligação. É uma lacuna da sincronização do WhatsApp, não queda de movimento: mensagens de outubro citam mensagens anteriores que não vieram na extração. Janeiro baixo coincide com o afastamento da Dra. (retorno em fevereiro). Outubro/26 cobre só 8 dias (7 a 14/10).</p>
  </div>
  <p class="small">Uma conversa sozinha concentra {fmt(M["internal_doc_msgs"])} mensagens (27% de tudo): o canal entre a Dra. e a secretária. A operação da agenda passa quase inteira por ela, o que torna a Dra. um gargalo e mistura assuntos pessoais com o canal comercial.</p>
 </section>
@@ -183,7 +183,7 @@ code{{font-family:var(--mono);font-size:.85em;background:var(--gapfill);padding:
  <div class="fig">
   <h3>Leads novos por mês</h3>
   {leadsmonth()}
-  <p class="cap">O volume salta em junho/26, quando entram o link pré-preenchido do Instagram e os anúncios de clique para WhatsApp. Outubro/26 já tem 39 leads em 14 dias, o maior ritmo do ano.</p>
+  <p class="cap">O volume salta em junho/26, quando entram o link pré-preenchido do Instagram e os anúncios de clique para WhatsApp. Outubro/26 já tem 39 leads em 8 dias, o maior ritmo do ano.</p>
  </div>
  <div class="fig">
   <h3>Origem e avanço por canal</h3>

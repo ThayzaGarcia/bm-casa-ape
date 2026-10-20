@@ -4,8 +4,8 @@ BASE=sys.argv[1] if len(sys.argv)>1 else os.path.join(os.path.dirname(__file__),
 db=sqlite3.connect(os.path.join(BASE,"whatsapp.db"))
 TZ=datetime.timezone(datetime.timedelta(hours=-3)); D=lambda t:datetime.datetime.fromtimestamp(t,TZ)
 ts_=lambda *a:datetime.datetime(*a,tzinfo=TZ).timestamp()
-# Lacuna do histórico sincronizado (17/07 a 01/10/2026 só tem registros de ligação). Ajuste se a nova extração não tiver lacuna.
-GAP=(ts_(2026,7,16,12),ts_(2026,10,2)); END=db.execute("select max(ts) from messages").fetchone()[0]/1000
+# Lacuna do histórico sincronizado (17/07 a 06/10/2026 só tem registros de ligação). Ajuste se a nova extração não tiver lacuna.
+GAP=(ts_(2026,7,16,12),ts_(2026,10,7)); END=db.execute("select max(ts) from messages").fetchone()[0]/1000
 AUTO=("Oieee, sua mensagem já chegou aqui","Olá!!\n\nÉ um prazer ter você aqui","Oieee, tudo bem? ✨")
 isauto=lambda m: m["ty"] in("ButtonsMessage","TemplateMessage","NativeFlowMessage") or m["tx"].startswith(AUTO)
 # Conversas internas (ex.: número pessoal da Dra.) a excluir da análise de leads: NUMEROS_INTERNOS=5577...,5577...

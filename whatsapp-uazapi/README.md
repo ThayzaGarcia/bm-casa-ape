@@ -42,6 +42,6 @@ select chatid, dt from messages where from_me = 0 and text like 'Olá, vim do in
 ## Observações sobre os dados
 
 - A paginação global de `/message/find` para em 2.000 mensagens. Por isso, o `extrair.py` busca também conversa por conversa.
-- Na extração de 14/10/2026, o histórico de 17/07 a 01/10/2026 veio só com registros de ligação (lacuna da sincronização do WhatsApp). O `analisar.py` ignora essa janela ao medir o tempo de resposta. Ajuste a constante `GAP` numa nova extração.
+- Na extração de 14/10/2026, o histórico de 17/07 a 06/10/2026 veio só com registros de ligação (lacuna da sincronização do WhatsApp). O `analisar.py` ignora essa janela ao medir o tempo de resposta. Ajuste a constante `GAP` numa nova extração.
 - As etapas do funil e as objeções são detectadas por palavras-chave no texto. Os áudios não são transcritos.
 - O texto do relatório em `gerar_relatorio.py` foi escrito para a extração de out/2026. Os números são atualizados a partir do `metrics.json`, mas a parte narrativa precisa de revisão a cada nova extração.
