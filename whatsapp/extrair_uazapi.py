@@ -16,7 +16,7 @@ from pathlib import Path
 
 BASE = os.environ.get("UAZAPI_URL", "https://free.uazapi.com").rstrip("/")
 TOKEN = os.environ["UAZAPI_TOKEN"]
-OUT = Path(__file__).parent / "dados"
+OUT = Path(os.environ.get("SAIDA") or Path(__file__).parent / "dados")
 
 
 def api(method, path, body=None):

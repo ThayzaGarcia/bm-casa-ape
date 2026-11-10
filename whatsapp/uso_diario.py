@@ -13,7 +13,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 BRT = timezone(timedelta(hours=-3))
-D = Path(__file__).parent / "dados"
+import os
+D = Path(os.environ.get("DADOS") or Path(__file__).parent / "dados")
 db = sqlite3.connect(D / (sys.argv[1] if len(sys.argv) > 1 else "whatsapp.db"))
 AUTO = "Seja Bem-vindo(a) a Clínica CLINMED"
 INI, FIM = 7 * 60 + 30, 17 * 60

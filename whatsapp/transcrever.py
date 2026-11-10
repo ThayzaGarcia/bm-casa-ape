@@ -5,7 +5,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 BRT = timezone(timedelta(hours=-3))
-D = Path(__file__).parent / "dados"
+import os
+D = Path(os.environ.get("DADOS") or Path(__file__).parent / "dados")
 db = sqlite3.connect(D / "whatsapp.db")
 
 
