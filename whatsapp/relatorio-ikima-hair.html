@@ -1,0 +1,295 @@
+<title>Ikima Hair · Resultados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f5f5f8; --surface:#ffffff; --ink:#1c1f2e; --ink2:#464b63; --muted:#6e7389; --line:#dcdde8;
+  --accent:#3d4a9e; --accent-soft:#e3e6f6; --accent2:#9aa3d8;
+  --crit:#b42318; --crit-soft:#fbe7e5; --warn:#9a5b06; --warn-soft:#fbf0dc; --good:#2f7d4f; --good-soft:#e2f2e7;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#12131c; --surface:#1a1c29; --ink:#e6e8f4; --ink2:#b6b9d0; --muted:#8c90ab; --line:#2c2f44;
+    --accent:#8e9bf0; --accent-soft:#242850; --accent2:#4b548f;
+    --crit:#f2877c; --crit-soft:#3a1c19; --warn:#e7b056; --warn-soft:#352a14; --good:#7cc99a; --good-soft:#18301f;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#12131c; --surface:#1a1c29; --ink:#e6e8f4; --ink2:#b6b9d0; --muted:#8c90ab; --line:#2c2f44;
+  --accent:#8e9bf0; --accent-soft:#242850; --accent2:#4b548f;
+  --crit:#f2877c; --crit-soft:#3a1c19; --warn:#e7b056; --warn-soft:#352a14; --good:#7cc99a; --good-soft:#18301f;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15.5px;line-height:1.55;padding-inline:16px;padding-block:32px 64px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:clamp(28px,4.5vw,40px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:23px;font-weight:650}
+h3{font-size:16.5px;font-weight:650}
+p{margin:0;max-width:68ch}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+section{display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--line);padding-bottom:28px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--ink2);font-size:13.5px}
+.lead{font-size:17px;color:var(--ink2)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.tile .v{font-family:"IBM Plex Mono",monospace;font-size:28px;font-weight:500;font-variant-numeric:tabular-nums}
+.tile .d{font-size:13px;font-weight:650;color:var(--good)}
+.tile .l{font-size:13px;color:var(--ink2);line-height:1.35}
+.list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.finding{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start}
+.finding .body{display:flex;flex-direction:column;gap:6px}
+.finding .ev{font-size:13.5px;color:var(--ink2)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:650;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.crit{color:var(--crit);background:var(--crit-soft)}
+.warn{color:var(--warn);background:var(--warn-soft)}
+.good{color:var(--good);background:var(--good-soft)}
+.info{color:var(--accent);background:var(--accent-soft)}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;white-space:nowrap}
+.up{color:var(--good);font-weight:650}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;position:relative}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:10px}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;padding:5px 8px;border-radius:6px;white-space:nowrap}
+.cmp{display:flex;flex-direction:column;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.crow{display:grid;grid-template-columns:minmax(130px,190px) 1fr auto;gap:8px 14px;align-items:center}
+.crow .bars{display:flex;flex-direction:column;gap:5px}
+.bar{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink2)}
+.bar b{display:block;height:14px;border-radius:0 4px 4px 0;min-width:2px}
+.bar .n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+.funnel{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.frow{display:grid;grid-template-columns:minmax(150px,230px) 1fr 44px;gap:12px;align-items:center;font-size:14px}
+.fbar{height:18px;background:var(--accent-soft);border-radius:4px;overflow:hidden}
+.fbar b{display:block;height:100%;background:var(--accent);border-radius:0 4px 4px 0}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.card ul,.card ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.small{font-size:13px;color:var(--muted)}
+@media (max-width:560px){ .finding{grid-template-columns:1fr} .frow{grid-template-columns:1fr 44px} .frow span:first-child{grid-column:1/-1} .crow{grid-template-columns:1fr} }
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Ikima Hair · Transplante e tratamento capilar</span>
+  <h1>O que mudou nos anúncios e o resultado no WhatsApp</h1>
+  <p class="lead">Comparativo dos últimos 15 dias de anúncios com os 15 dias anteriores, e uma leitura das conversas que chegaram pelo WhatsApp.</p>
+  <div class="meta">
+    <span>Anúncios: <span class="mono">26/10 → 09/11</span> contra <span class="mono">11/10 → 25/10</span></span>
+    <span>Conversas: <span class="mono">03/11 → 10/11</span></span>
+    <span>Fonte: Gerenciador de Anúncios da Meta e WhatsApp comercial</span>
+  </div>
+</header>
+
+<section>
+  <span class="eyebrow">Resultado dos anúncios</span>
+  <h2>Mais gente alcançada, gastando o mesmo</h2>
+  <p>Na campanha de qualificação de Francisco Beltrão, que gera as conversas no WhatsApp, o investimento ficou praticamente igual nos dois períodos. Com a mesma verba, o anúncio chegou a mais pessoas e cada clique custou menos.</p>
+  <div class="tiles">
+    <div class="tile"><span class="v">69.296</span><span class="d">+36%</span><span class="l">pessoas alcançadas, contra 51.045 nos 15 dias anteriores</span></div>
+    <div class="tile"><span class="v">221.903</span><span class="d">+28%</span><span class="l">impressões, contra 173.367</span></div>
+    <div class="tile"><span class="v">2.198</span><span class="d">+43%</span><span class="l">cliques, contra 1.540</span></div>
+    <div class="tile"><span class="v">R$ 1,34</span><span class="d">−31%</span><span class="l">custo por clique, contra R$ 1,95</span></div>
+    <div class="tile"><span class="v">R$ 43</span><span class="d">−28%</span><span class="l">para cada 1.000 pessoas alcançadas, contra R$ 59</span></div>
+    <div class="tile"><span class="v">R$ 2.946</span><span class="d" style="color:var(--ink2)">−2%</span><span class="l">investido nos últimos 15 dias, contra R$ 3.010</span></div>
+  </div>
+
+  <div class="cmp" id="cmp"></div>
+  <div class="legend"><span><i style="background:var(--accent2)"></i>11/10 a 25/10</span><span><i style="background:var(--accent)"></i>26/10 a 09/11</span></div>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Campanha de qualificação (MOFU)</th><th class="num">11/10 a 25/10</th><th class="num">26/10 a 09/11</th><th class="num">Variação</th></tr></thead>
+    <tbody>
+      <tr><td>Pessoas alcançadas</td><td class="num">51.045</td><td class="num">69.296</td><td class="num up">+36%</td></tr>
+      <tr><td>Impressões</td><td class="num">173.367</td><td class="num">221.903</td><td class="num up">+28%</td></tr>
+      <tr><td>Cliques</td><td class="num">1.540</td><td class="num">2.198</td><td class="num up">+43%</td></tr>
+      <tr><td>CTR (cliques por impressão)</td><td class="num">0,89%</td><td class="num">0,99%</td><td class="num up">+11%</td></tr>
+      <tr><td>Custo por clique</td><td class="num">R$ 1,95</td><td class="num">R$ 1,34</td><td class="num up">−31%</td></tr>
+      <tr><td>Custo por 1.000 pessoas alcançadas</td><td class="num">R$ 59,0</td><td class="num">R$ 42,5</td><td class="num up">−28%</td></tr>
+      <tr><td>Investimento</td><td class="num">R$ 3.009,60</td><td class="num">R$ 2.945,56</td><td class="num">−2%</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>O que mudou na estratégia</h3>
+  <div class="two">
+    <div class="card">
+      <h3>Verba concentrada em quem gera conversa</h3>
+      <p>A campanha de tráfego para o perfil (que levava visitas ao Instagram, mas não gerava conversas) ficou sem veiculação de 26/10 a 09/11. Nos 15 dias anteriores ela consumiu R$ 588. O investimento ficou todo na campanha de qualificação, voltada a quem mora em Francisco Beltrão e região.</p>
+    </div>
+    <div class="card">
+      <h3>Reforço de verba em novembro</h3>
+      <p>O investimento diário passou de cerca de <b>R$ 207</b> (11 a 20/10) para <b>R$ 273</b> (04 a 10/11). Veja a seguir o que isso representou em conversas.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Conversas e leads</span>
+  <h2>Mais que o dobro de conversas por dia</h2>
+  <div class="tiles">
+    <div class="tile"><span class="v">5,7</span><span class="d">+111%</span><span class="l">conversas de anúncio por dia em 04 a 10/11 (40 conversas), contra 2,7 por dia em 11 a 20/10 (27 conversas)</span></div>
+    <div class="tile"><span class="v">R$ 48</span><span class="d">−38%</span><span class="l">por conversa iniciada, contra R$ 77</span></div>
+    <div class="tile"><span class="v">37</span><span class="d" style="color:var(--ink2)">03 a 09/11</span><span class="l">leads de capilar registrados pela equipe, com 3 agendamentos novos</span></div>
+  </div>
+  <p class="small">Conversas de 11 a 20/10: contadas pelo Gerenciador de Anúncios. Conversas de 04 a 10/11: contadas no WhatsApp, pelas mensagens que chegaram com a marca do anúncio. Custo por conversa: investimento da campanha de qualificação dividido pelas conversas do período.</p>
+  <div class="chart" id="chart">
+    <h3>Conversas novas de anúncio por dia</h3>
+    <svg id="days" viewBox="0 0 640 210" role="img" aria-label="Barras de conversas novas de anúncio por dia, de 04 a 10 de novembro"></svg>
+    <span class="small">10/11 inclui só até 11h07. Passe o mouse para ver os valores.</span>
+    <div class="tip" id="tip" hidden></div>
+  </div>
+
+  <h3>O que acontece com os 40 leads de anúncio</h3>
+  <div class="funnel" id="funnel"></div>
+  <p class="small">"Escreveram além do texto pronto" conta quem mandou qualquer mensagem além da frase automática do anúncio ("Olá! Vi o vídeo e quero saber mais sobre o transplante capilar."). "Receberam data" é uma contagem aproximada por palavras-chave. Dos 3 agendamentos novos de capilar, um veio de lead antigo (entrou em 29/10 e voltou depois de follow-up), um por indicação e um do Instagram.</p>
+</section>
+
+<section>
+  <span class="eyebrow">Velocidade de resposta</span>
+  <h2>Onde o lead esfria</h2>
+  <ul class="list">
+    <li class="finding"><span class="chip crit">Oportunidade</span><div class="body"><h3>75% dos leads de anúncio escrevem fora do expediente</h3><p class="ev">30 dos 40 leads escreveram à noite, de madrugada ou no fim de semana. A mediana até a 1ª resposta é de <b>14 min dentro do expediente</b> e de <b>13,6 h fora dele</b>. Das 40 primeiras respostas, 32 saíram entre 08h00 e 09h59. Os leads de sábado e domingo esperaram até segunda.</p></div></li>
+    <li class="finding"><span class="chip crit">Oportunidade</span><div class="body"><h3>Quanto mais rápida a 1ª resposta, mais o lead continua na conversa</h3><p class="ev">A amostra é pequena, mas a direção é clara: respondidos em até 1 h, 63% voltaram a escrever. Entre 12 e 24 h, 38%. Acima de 24 h, nenhum dos 5.</p></div></li>
+  </ul>
+  <div class="tbl"><table>
+    <thead><tr><th>Tempo até a 1ª resposta humana</th><th class="num">Leads</th><th class="num">Voltaram a escrever</th><th class="num">Taxa</th></tr></thead>
+    <tbody>
+      <tr><td>Até 1 hora</td><td class="num">8</td><td class="num">5</td><td class="num">63%</td></tr>
+      <tr><td>1 a 12 horas</td><td class="num">11</td><td class="num">5</td><td class="num">45%</td></tr>
+      <tr><td>12 a 24 horas</td><td class="num">16</td><td class="num">6</td><td class="num">38%</td></tr>
+      <tr><td>Mais de 24 horas</td><td class="num">5</td><td class="num">0</td><td class="num">0%</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <span class="eyebrow">Qualidade dos leads</span>
+  <h2>Quem chega e o que pergunta</h2>
+  <ul class="list">
+    <li class="finding"><span class="chip warn">Atenção</span><div class="body"><h3>48% dos leads não escreveram nada além do texto pronto</h3><p class="ev">19 dos 40 só enviaram a frase automática do anúncio. Com a primeira resposta mais rápida e uma pergunta direta, parte deles pode virar conversa.</p></div></li>
+    <li class="finding"><span class="chip warn">Atenção</span><div class="body"><h3>A mensagem genérica "Fale conosco" não gerou conversa</h3><p class="ev">O anúncio terminado em <span class="mono">De9zSegMclf</span> (texto pronto "Posso ter mais informações sobre isso?") trouxe 5 leads e nenhum respondeu. O anúncio <span class="mono">84j4vMEXU</span> (texto "Vi o vídeo…") trouxe 6 leads e 3 responderam. É pouca amostra, mas vale testar a frase inicial.</p></div></li>
+    <li class="finding"><span class="chip warn">Atenção</span><div class="body"><h3>Parte do público está longe da clínica</h3><p class="ev">A clínica fica em Francisco Beltrão (PR). Entre os leads que informaram a cidade, apareceram São Miguel e Nova Laranjeiras, e um respondeu "no momento não, talvez ano que vem" ao saber da distância. Perguntar a cidade já na primeira mensagem economiza tempo da equipe.</p></div></li>
+    <li class="finding"><span class="chip warn">Atenção</span><div class="body"><h3>O lead pergunta o valor da avaliação e recebe áudio em vez de texto</h3><p class="ev">Pelo menos 3 leads perguntaram "a avaliação custa quanto?" e a resposta seguinte foi um áudio. Nas mensagens escritas o valor não aparece. Quem recebeu um número por escrito foi quem insistiu (R$ 6.000 em média para tratamento). Os agendamentos fechados tinham valor claro: consulta de R$ 300, com 50% de sinal.</p></div></li>
+    <li class="finding"><span class="chip info">Dado</span><div class="body"><h3>A resposta automática da Meta cobre só parte dos leads</h3><p class="ev">A mensagem "Oi! Como podemos ajudar?" disparou em 15 dos 40 leads. Nos outros 25 não houve resposta automática, e o lead esperou a equipe abrir o WhatsApp.</p></div></li>
+    <li class="finding"><span class="chip good">Positivo</span><div class="body"><h3>O follow-up recupera lead</h3><p class="ev">Um lead que entrou em 29/10, disse que ia ver a agenda e sumiu, voltou depois do follow-up e agendou em 05/11, com R$ 150 de sinal.</p></div></li>
+    <li class="finding"><span class="chip warn">Atenção</span><div class="body"><h3>A agenda do médico limita o fechamento</h3><p class="ev">Para avaliação nova foram oferecidas datas desde 10/11 até 11/12. Para cirurgia, a próxima data de uma paciente é 30/01. Um lead adiou por prazo ("preciso esperar minhas férias") e outros adiaram para "ano que vem".</p></div></li>
+  </ul>
+</section>
+
+<section>
+  <span class="eyebrow">Atendimento</span>
+  <h2>O roteiro é seguido, com pontos a ajustar</h2>
+  <p>Existe um roteiro claro e a equipe o segue: apresentação da secretária do Dr. Bruno, pergunta sobre o que incomoda no cabelo, envio de fotos de casos, áudio explicando a avaliação, oferta de datas, sinal de 50% e ficha de anamnese. Para pacientes antigos, há confirmação com prazo até as 15h do dia anterior e lista de espera.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Etapa</th><th>Como está hoje</th><th>Situação</th></tr></thead>
+    <tbody>
+      <tr><td>Abertura</td><td>Mensagem padrão em 43 envios, com pequenas variações</td><td><span class="chip good">Seguido</span></td></tr>
+      <tr><td>Qualificação</td><td>"O que mais incomoda em relação ao seu cabelo?" em todas as conversas</td><td><span class="chip good">Seguido</span></td></tr>
+      <tr><td>Fotos de casos</td><td>Enviadas em lote: 13 leads receberam o mesmo texto em 09/11, entre 17h14 e 17h30</td><td><span class="chip warn">Ajustar</span></td></tr>
+      <tr><td>Valor da avaliação</td><td>Sem valor por escrito; os leads que perguntaram receberam áudio</td><td><span class="chip warn">A confirmar</span></td></tr>
+      <tr><td>Oferta de datas</td><td>Três opções por mensagem, o que é bom; há datas até 11/12 para avaliação</td><td><span class="chip warn">Ajustar</span></td></tr>
+      <tr><td>Sinal e dados</td><td>Chave Pix enviada e CPF, RG, endereço e e-mail pedidos pela conversa</td><td><span class="chip crit">Risco de dados</span></td></tr>
+      <tr><td>Confirmação de véspera</td><td>Mensagem às 08h, prazo às 15h e aviso de lista de espera; 3 pacientes confirmaram na hora</td><td><span class="chip good">Seguido</span></td></tr>
+      <tr><td>Follow-up</td><td>Cadência de 2 h, 1 dia e 3 dias aparece em vários leads; alguns recebem a mensagem só depois de 4 dias</td><td><span class="chip warn">Irregular</span></td></tr>
+      <tr><td>Remarcação</td><td>Quando o paciente cancela, a equipe tenta remarcar (na hora em 1 caso, no dia seguinte em outros 2)</td><td><span class="chip good">Seguido</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Sobre dados: o CPF, a data de nascimento e o endereço de um paciente ficaram na mesma conversa da chave Pix. Vale mover a ficha para um formulário do sistema e deixar no WhatsApp só o link.</p>
+</section>
+
+<section>
+  <span class="eyebrow">Próximos passos</span>
+  <h2>O que melhorar, por prioridade</h2>
+  <div class="two">
+    <div class="card">
+      <span class="chip crit" style="align-self:flex-start">Esta semana</span>
+      <ol>
+        <li><b>Resposta imediata fora do horário.</b> Ativar no WhatsApp Business a mensagem de ausência, com duas perguntas curtas ("Qual a sua cidade?" e "O que mais incomoda no cabelo?"). O lead responde de noite e a equipe já abre a conversa com contexto.</li>
+        <li><b>Primeira resposta antes das 08h</b> nos dias úteis e uma rodada rápida no sábado e no domingo: quem escreve no fim de semana hoje só é atendido na segunda.</li>
+        <li><b>Dizer o valor da avaliação na primeira troca</b> ("R$ 300, com 50% de sinal para reservar o horário"), em texto e não em áudio.</li>
+        <li><b>Perguntar a cidade no começo</b> e já avisar que o atendimento é em Francisco Beltrão.</li>
+        <li><b>Tirar CPF, RG e endereço da conversa.</b> Usar o formulário do sistema.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <span class="chip warn" style="align-self:flex-start">Este mês</span>
+      <ol start="6">
+        <li><b>Trocar o texto pronto dos anúncios</b> "Fale conosco / Posso ter mais informações" por uma frase específica ("Quero saber o valor da avaliação capilar") e comparar a resposta dos leads.</li>
+        <li><b>Distribuir o envio das fotos de casos</b> ao longo do dia, em vez de um lote às 17h.</li>
+        <li><b>Abrir mais horários de avaliação</b> antes de 11/12 e uma lista de espera de encaixe. Hoje a agenda é o gargalo de quem já quer agendar.</li>
+        <li><b>Padronizar o relatório diário:</b> contar leads como conversas novas, separar a origem (anúncio, indicação, retorno) e registrar o motivo de não agendar.</li>
+        <li><b>Acompanhar quinzenalmente</b> alcance, conversas, custo por conversa e agendamentos, no mesmo formato desta página.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Método</span>
+  <h2>Como os números foram obtidos</h2>
+  <div class="card">
+    <ul>
+      <li>Alcance, impressões, cliques, custo e investimento: Gerenciador de Anúncios da Meta, conta Ikima hair, campanha de qualificação de Francisco Beltrão, nas janelas indicadas.</li>
+      <li>"Lead de anúncio" é a conversa cuja 1ª mensagem do cliente traz a marca de anúncio do WhatsApp. "Resposta humana" ignora a mensagem automática da Meta.</li>
+      <li>Expediente considerado: segunda a sexta, das 08h às 18h.</li>
+      <li>Leads e agendamentos de capilar por dia vêm dos relatórios que a equipe publica no grupo de agendamentos. São números declarados pela equipe.</li>
+      <li>Foram lidas todas as conversas do período. Áudios, imagens e PDFs não foram abertos.</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  // comparativo anterior x atual
+  var rows=[["Pessoas alcançadas",51045,69296],["Impressões",173367,221903],["Cliques",1540,2198]];
+  function fmt(n){return n.toLocaleString('pt-BR');}
+  document.getElementById('cmp').innerHTML=rows.map(function(r){
+    var max=r[2], pct=Math.round((r[2]/r[1]-1)*100);
+    return '<div class="crow"><b>'+r[0]+'</b><div class="bars">'+
+      '<div class="bar"><b style="width:'+(r[1]/max*100*0.8)+'%;background:var(--accent2)"></b><span class="n">'+fmt(r[1])+'</span></div>'+
+      '<div class="bar"><b style="width:'+(r[2]/max*100*0.8)+'%;background:var(--accent)"></b><span class="n">'+fmt(r[2])+'</span></div></div>'+
+      '<span class="chip good">+'+pct+'%</span></div>';
+  }).join('');
+
+  // conversas de anúncio por dia
+  var days=[["04/11",3],["05/11",9],["06/11",6],["07/11",4],["08/11",9],["09/11",4],["10/11",5]];
+  var svg=document.getElementById('days'), tip=document.getElementById('tip'), box=document.getElementById('chart');
+  var W=640,H=210,L=30,R=8,T=14,B=26,max=10,gw=(W-L-R)/days.length,bw=gw*0.5;
+  function y(v){return T+(H-T-B)*(1-v/max);}
+  var s='';
+  [0,5,10].forEach(function(v){s+='<line class="grid" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text x="'+(L-6)+'" y="'+(y(v)+3)+'" text-anchor="end">'+v+'</text>';});
+  days.forEach(function(d,i){
+    var x=L+i*gw+(gw-bw)/2, top=y(d[1]), base=H-B, r=Math.min(4,bw/2);
+    s+='<path d="M'+x+','+base+' V'+(top+r)+' Q'+x+','+top+' '+(x+r)+','+top+' H'+(x+bw-r)+' Q'+(x+bw)+','+top+' '+(x+bw)+','+(top+r)+' V'+base+' Z" fill="var(--accent)"/>';
+    s+='<text x="'+(x+bw/2)+'" y="'+(top-4)+'" text-anchor="middle" style="fill:var(--ink)">'+d[1]+'</text>';
+    s+='<text x="'+(x+bw/2)+'" y="'+(H-8)+'" text-anchor="middle">'+d[0]+'</text>';
+    s+='<rect x="'+(L+i*gw)+'" y="'+T+'" width="'+gw+'" height="'+(H-T-B)+'" fill="transparent" data-i="'+i+'"/>';
+  });
+  svg.innerHTML=s;
+  svg.addEventListener('mousemove',function(e){
+    var t=e.target; if(!t.dataset||t.dataset.i===undefined){tip.hidden=true;return;}
+    var d=days[+t.dataset.i]; tip.textContent=d[0]+' · '+d[1]+' conversas novas';
+    var b=box.getBoundingClientRect(); tip.hidden=false;
+    tip.style.left=Math.min(e.clientX-b.left+12,b.width-190)+'px'; tip.style.top=(e.clientY-b.top-34)+'px';
+  });
+  svg.addEventListener('mouseleave',function(){tip.hidden=true;});
+
+  var f=[["Leads de anúncio",40],["Receberam resposta humana",40],["Escreveram além do texto pronto",21],["Responderam depois do 1º contato da clínica",16],["Receberam proposta de data (aprox.)",13]];
+  document.getElementById('funnel').innerHTML=f.map(function(r){return '<div class="frow"><span>'+r[0]+'</span><div class="fbar"><b style="width:'+(r[1]/40*100)+'%"></b></div><span class="mono" style="text-align:right">'+r[1]+'</span></div>';}).join('');
+})();
+</script>
